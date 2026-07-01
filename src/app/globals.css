@@ -1,0 +1,98 @@
+/* Google Fonts must come before @import "tailwindcss" */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ── Warm Rust & Cream Palette ───────────────────── */
+  --color-primary:  #1c1c1f;
+  --color-secondary: #5a5a62;
+  --color-accent:   #c05e46;
+  --color-surface:  #fbf9f6;
+  --color-success:  #3c6e57;
+
+  /* Dark mode surfaces */
+  --color-bg-dark:       #121214;
+  --color-surface-dark:  #1b1b1e;
+  --color-border-dark:   #2a2a2f;
+
+  /* Typography */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans:  "Plus Jakarta Sans", system-ui, Arial, sans-serif;
+  --font-mono:  var(--font-geist-mono), monospace;
+}
+
+:root {
+  --background: #fbf9f6;
+  --foreground: #1c1c1f;
+  scroll-behavior: smooth;
+}
+
+.dark {
+  --background: #121214;
+  --foreground: #e6e3df;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", system-ui, Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Custom Scrollbar (warm tones) ─────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+.dark ::-webkit-scrollbar-track { background: #121214; }
+::-webkit-scrollbar-thumb { background: #d9cfc6; border-radius: 99px; }
+.dark ::-webkit-scrollbar-thumb { background: #2a2a2f; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #c05e46; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #c05e46; }
+
+/* ── Glassmorphism Utilities ────────────────────────── */
+.glass {
+  background: rgba(251, 249, 246, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+.dark .glass {
+  background: rgba(18, 18, 20, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(42, 42, 47, 0.6);
+}
+
+/* ── Selection highlight ────────────────────────────── */
+::selection {
+  background: #c05e46;
+  color: #fff;
+}
+
+/* ── Grain texture overlay ──────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px;
+}
+.dark body::before { opacity: 0.04; }
+
+/* ── Print Layout for Resume Generator ─────────────── */
+@media print {
+  body { background: white !important; color: black !important; font-size: 11pt !important; }
+  .no-print { display: none !important; }
+  .print-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  a { text-decoration: underline !important; color: black !important; }
+}
