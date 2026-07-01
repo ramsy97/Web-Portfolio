@@ -4,9 +4,11 @@ import React, { useEffect, useState } from "react";
 import { usePortfolioStore } from "../store/portfolioStore";
 import { Github, ExternalLink, Star, GitFork, RefreshCw, Layers, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { translations, t } from "../utils/translations";
 
 export default function Projects() {
-  const { githubRepos, loading, error, fetchData } = usePortfolioStore();
+  const { githubRepos, loading, error, fetchData, language } = usePortfolioStore();
+  const tr = translations.projects;
 
   useEffect(() => {
     fetchData();
@@ -70,12 +72,12 @@ export default function Projects() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6">
           <div className="text-left">
-            <p className="text-xs font-bold uppercase tracking-widest text-accent">Selected Works</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
             <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-              Featured Projects
+              {t(tr.sectionTitle, language)}
             </h2>
             <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-              Menampilkan karya rekayasa perangkat lunak teratas, terintegrasi langsung dengan GitHub REST API untuk sinkronisasi otomatis.
+              {t(tr.sectionDesc, language)}
             </p>
           </div>
 
@@ -83,7 +85,7 @@ export default function Projects() {
             {/* Sync Indicator */}
             <span className="inline-flex items-center gap-1 text-[11px] font-semibold tracking-wider text-gray-400 dark:text-gray-500 uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
-              GitHub Live Sync Connected
+              {t(tr.syncConnected, language)}
             </span>
             <button
               onClick={fetchData}
@@ -101,7 +103,7 @@ export default function Projects() {
           <div className="flex flex-col items-center justify-center py-20">
             <RefreshCw className="h-8 w-8 text-accent animate-spin mb-4" />
             <p className="text-sm font-semibold text-secondary dark:text-gray-400">
-              Mengambil repositori dari GitHub API...
+              {t(tr.loading, language)}
             </p>
           </div>
         )}
@@ -110,7 +112,7 @@ export default function Projects() {
         {error && (
           <div className="mb-8 rounded-xl bg-red-50 p-4 border border-red-200 dark:bg-red-950/20 dark:border-red-900/50">
             <p className="text-xs text-red-700 dark:text-red-400">
-              * Gagal terhubung ke API GitHub ({error}). Menampilkan data repositori lokal tersinkronisasi.
+              {t(tr.errorMsg, language)} ({error})
             </p>
           </div>
         )}
@@ -164,7 +166,7 @@ export default function Projects() {
               {/* Card Body */}
               <div className="p-6 flex flex-col flex-1">
                 <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-3 mb-4 leading-relaxed flex-1">
-                  {project.description || "Tidak ada deskripsi. Klik link GitHub untuk informasi selengkapnya mengenai proyek ini."}
+                  {project.description || t(tr.noDesc, language)}
                 </p>
 
                 {/* Tech Stack Tags */}
@@ -222,7 +224,7 @@ export default function Projects() {
             onClick={handleScrollToExplorer}
             className="inline-flex items-center gap-2 rounded-xl bg-accent/10 px-5 py-3 text-sm font-semibold text-accent dark:bg-accent/20 hover:bg-accent/20 transition-all cursor-pointer"
           >
-            Explore Project Dashboard ({githubRepos.length || 14} Repositories)
+            {t(tr.exploreBtn, language)} ({githubRepos.length || 14} {t(tr.repositories, language)})
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

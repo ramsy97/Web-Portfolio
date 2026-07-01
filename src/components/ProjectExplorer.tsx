@@ -4,9 +4,11 @@ import React, { useState, useMemo } from "react";
 import { usePortfolioStore } from "../store/portfolioStore";
 import { Search, Filter, ArrowUpDown, ArrowRightLeft, BookOpen, Star, GitFork, X, Code, CheckCircle, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { translations, t } from "../utils/translations";
 
 export default function ProjectExplorer() {
-  const { githubRepos } = usePortfolioStore();
+  const { githubRepos, language } = usePortfolioStore();
+  const tr = translations.explorer;
   
   // Dashboard states
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,16 +80,31 @@ export default function ProjectExplorer() {
     if (name.toLowerCase().includes("warung")) {
       return {
         title: "Case Study: Warung Kita Point-of-Sale (POS) & Inventory System",
-        problem: "UMKM sering kesulitan memantau stok produk secara real-time dan menyusun laporan keuangan harian. Proses manual sering kali mengakibatkan selisih kas dan keterlambatan restock barang.",
-        architecture: "Menggunakan backend Python dengan FastAPI yang sangat cepat dan asinkron, dikombinasikan dengan database SQLite + SQLAlchemy ORM. Frontend dibangun menggunakan React 19, TypeScript, dan Tailwind CSS v4 untuk antarmuka yang sangat responsif.",
-        challenges: "Sinkronisasi stok barang saat transaksi penjualan berlangsung padat, serta penanganan ekspor data dalam format Excel (.xlsx) dan PDF tanpa membebani memori server.",
-        solution: "Menerapkan sistem penguncian transaksi (db transaction locks) dan logs adjustment otomatis. Mengintegrasikan pustaka XLSX-Populate di frontend dan ekspor PDF berbasis PDF-Kit dengan stream buffering di backend.",
-        features: [
-          "Role-Based Access Control (Admin & Kasir)",
-          "Real-time Inventory Low-Stock Alerts",
-          "One-Click Financial Exporting System",
-          "Interactive Debt & Receivable Ledger"
-        ],
+        problem: language === "id"
+          ? "UMKM sering kesulitan memantau stok produk secara real-time dan menyusun laporan keuangan harian. Proses manual sering kali mengakibatkan selisih kas dan keterlambatan restock barang."
+          : "SMEs often face difficulties in monitoring product stock in real-time and compiling daily financial reports. Manual processes frequently result in cash discrepancies and stock restock delays.",
+        architecture: language === "id"
+          ? "Menggunakan backend Python dengan FastAPI yang sangat cepat dan asinkron, dikombinasikan dengan database SQLite + SQLAlchemy ORM. Frontend dibangun menggunakan React 19, TypeScript, dan Tailwind CSS v4 untuk antarmuka yang sangat responsif."
+          : "Uses a Python backend with FastAPI for high-speed asynchronous processing, combined with a SQLite database + SQLAlchemy ORM. The frontend is built using React 19, TypeScript, and Tailwind CSS v4 for a highly responsive interface.",
+        challenges: language === "id"
+          ? "Sinkronisasi stok barang saat transaksi penjualan berlangsung padat, serta penanganan ekspor data dalam format Excel (.xlsx) dan PDF tanpa membebani memori server."
+          : "Synchronizing product stock during high-volume sales transactions, and handling data exports in Excel (.xlsx) and PDF formats without overloading server memory.",
+        solution: language === "id"
+          ? "Menerapkan sistem penguncian transaksi (db transaction locks) dan logs adjustment otomatis. Mengintegrasikan pustaka XLSX-Populate di frontend dan ekspor PDF berbasis PDF-Kit dengan stream buffering di backend."
+          : "Implementing database transaction locks and automatic stock adjustment logs. Integrating the XLSX-Populate library on the frontend and PDF-Kit-based PDF exports with stream buffering on the backend.",
+        features: language === "id"
+          ? [
+              "Role-Based Access Control (Admin & Kasir)",
+              "Real-time Inventory Low-Stock Alerts",
+              "One-Click Financial Exporting System",
+              "Interactive Debt & Receivable Ledger"
+            ]
+          : [
+              "Role-Based Access Control (Admin & Cashier)",
+              "Real-time Inventory Low-Stock Alerts",
+              "One-Click Financial Exporting System",
+              "Interactive Debt & Receivable Ledger"
+            ],
         codeSnippet: `// FastAPI Endpoint: Menangani Checkout Transaksi POS
 @router.post("/checkout")
 async function checkout_transaction(
@@ -117,10 +134,18 @@ async function checkout_transaction(
     if (name.toLowerCase().includes("ordering") || name.toLowerCase().includes("flow")) {
       return {
         title: "Case Study: RestoFlow - Real-time Food Ordering & Restaurant Sync",
-        problem: "Macetnya komunikasi pesanan antara pelanggan di meja, koki di dapur, dan kasir di depan, mengakibatkan pesanan terlambat diproses atau salah hidangan.",
-        architecture: "Frontend menggunakan Vue 3 dengan TypeScript, Vite, dan Pinia. Backend menggunakan Express.js, Prisma ORM, PostgreSQL, dan Socket.io untuk transmisi data real-time dua arah.",
-        challenges: "Menjaga konsistensi status pesanan (Pending -> Preparing -> Ready -> Served) di semua layar monitor pengguna tanpa perlu refresh halaman web.",
-        solution: "Membuat server Socket.io terintegrasi untuk menyiarkan event perubahan status pesanan secara spesifik ke room kasir, dapur, atau pelanggan.",
+        problem: language === "id"
+          ? "Macetnya komunikasi pesanan antara pelanggan di meja, koki di dapur, dan kasir di depan, mengakibatkan pesanan terlambat diproses atau salah hidangan."
+          : "Bottlenecks in order communication between customers at tables, kitchen chefs, and cashiers up front lead to delayed order processing or incorrect dishes.",
+        architecture: language === "id"
+          ? "Frontend menggunakan Vue 3 dengan TypeScript, Vite, dan Pinia. Backend menggunakan Express.js, Prisma ORM, PostgreSQL, dan Socket.io untuk transmisi data real-time dua arah."
+          : "The frontend uses Vue 3 with TypeScript, Vite, and Pinia. The backend uses Express.js, Prisma ORM, PostgreSQL, and Socket.io for real-time two-way data transmission.",
+        challenges: language === "id"
+          ? "Menjaga konsistensi status pesanan (Pending -> Preparing -> Ready -> Served) di semua layar monitor pengguna tanpa perlu refresh halaman web."
+          : "Maintaining consistency in order status (Pending -> Preparing -> Ready -> Served) across all user monitor screens without web page refreshes.",
+        solution: language === "id"
+          ? "Membuat server Socket.io terintegrasi untuk menyiarkan event perubahan status pesanan secara spesifik ke room kasir, dapur, atau pelanggan."
+          : "Creating an integrated Socket.io server to broadcast order status change events specifically to cashier, kitchen, or customer rooms.",
         features: [
           "Real-time WebSockets Order Dispatching",
           "Kitchen Monitor Interactive Kanban Board",
@@ -151,10 +176,18 @@ io.on("connection", (socket) => {
     // Default Case Study Generator for other repos
     return {
       title: `Case Study: ${repo.name.replace(/-/g, " ")}`,
-      problem: `Membangun sebuah modul aplikasi berbasis ${lang} yang handal, efisien, dengan antarmuka yang modern, responsif, dan mudah diakses oleh pengguna.`,
-      architecture: `Proyek ini dibangun menggunakan bahasa pemrograman ${lang} dengan memanfaatkan tools standar industri untuk menjaga kualitas kode, modularitas, dan performa tinggi.`,
-      challenges: `Mengatur manajemen state lokal secara efisien dan memastikan aset-aset ter-render secara optimal di perangkat mobile maupun desktop.`,
-      solution: `Menerapkan arsitektur komponen modular, optimasi rendering browser, dan memisahkan fungsi logis dari UI presentation layer.`,
+      problem: language === "id"
+        ? `Membangun sebuah modul aplikasi berbasis ${lang} yang handal, efisien, dengan antarmuka yang modern, responsif, dan mudah diakses oleh pengguna.`
+        : `Building a reliable, efficient application module based on ${lang} with a modern, responsive, and easily accessible user interface.`,
+      architecture: language === "id"
+        ? `Proyek ini dibangun menggunakan bahasa pemrograman ${lang} dengan memanfaatkan tools standar industri untuk menjaga kualitas kode, modularitas, dan performa tinggi.`
+        : `This project is built using the ${lang} programming language, utilizing industry-standard tools to maintain code quality, modularity, and high performance.`,
+      challenges: language === "id"
+        ? `Mengatur manajemen state lokal secara efisien dan memastikan aset-aset ter-render secara optimal di perangkat mobile maupun desktop.`
+        : `Managing local state efficiently and ensuring assets render optimally on both mobile and desktop devices.`,
+      solution: language === "id"
+        ? `Menerapkan arsitektur komponen modular, optimasi rendering browser, dan memisahkan fungsi logis dari UI presentation layer.`
+        : `Implementing modular component architecture, optimizing browser rendering, and separating logical functions from the UI presentation layer.`,
       features: [
         "Interactive User Interface (UI)",
         "Mobile First Responsive Layout",
@@ -210,12 +243,12 @@ export default function ApplicationModule({ config }) {
         
         {/* Section Header */}
         <div className="text-left mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Code Repository</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            Project Explorer Dashboard
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Telusuri seluruh repositori GitHub saya secara real-time. Klik &ldquo;View Case Study&rdquo; pada kartu proyek untuk melihat ringkasan teknis sistem informasi.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
@@ -226,7 +259,7 @@ export default function ApplicationModule({ config }) {
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search repository name or keyword..."
+              placeholder={t(tr.searchPlaceholder, language)}
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
               className="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent"
@@ -241,7 +274,7 @@ export default function ApplicationModule({ config }) {
               onChange={(e) => { setSelectedLang(e.target.value); setCurrentPage(1); }}
               className="w-full md:w-auto px-3 py-2 text-sm bg-white dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent"
             >
-              <option value="All">All Technologies</option>
+              <option value="All">{t(tr.allTech, language)}</option>
               {languages.filter(l => l !== "All").map(lang => (
                 <option key={lang} value={lang}>{lang}</option>
               ))}
@@ -256,9 +289,9 @@ export default function ApplicationModule({ config }) {
               onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
               className="w-full md:w-auto px-3 py-2 text-sm bg-white dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent"
             >
-              <option value="updated">Latest Update</option>
-              <option value="stars">Star Count</option>
-              <option value="name">Alphabetical</option>
+              <option value="updated">{t(tr.sortLatest, language)}</option>
+              <option value="stars">{t(tr.sortStars, language)}</option>
+              <option value="name">{t(tr.sortAlpha, language)}</option>
             </select>
           </div>
         </div>
@@ -267,7 +300,7 @@ export default function ApplicationModule({ config }) {
         {filteredAndSortedRepos.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-gray-300 rounded-2xl dark:border-gray-800">
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Tidak ada repositori yang cocok dengan kata kunci &quot;{searchTerm}&quot; atau teknologi &quot;{selectedLang}&quot;.
+              {t(tr.noResults, language)} &quot;{searchTerm}&quot; {t(tr.or, language)} &quot;{selectedLang}&quot;.
             </p>
           </div>
         ) : (
@@ -288,7 +321,7 @@ export default function ApplicationModule({ config }) {
                   </div>
 
                   <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed flex-1 mb-4">
-                    {repo.description || "Proyek rekayasa web personal untuk mendemonstrasikan algoritma dan pemrograman modular."}
+                    {repo.description || t(tr.noDesc, language)}
                   </p>
 
                   <div className="flex items-center gap-4 text-xs font-semibold text-gray-400 dark:text-gray-500 mb-4">
@@ -301,7 +334,7 @@ export default function ApplicationModule({ config }) {
                       {repo.forks_count}
                     </span>
                     <span className="text-[10px] ml-auto">
-                      Updated: {new Date(repo.updated_at).toLocaleDateString()}
+                      {t(tr.updated, language)} {new Date(repo.updated_at).toLocaleDateString()}
                     </span>
                   </div>
 
@@ -312,7 +345,7 @@ export default function ApplicationModule({ config }) {
                       className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-accent/10 py-2 text-xs font-semibold text-accent dark:bg-accent/25 hover:bg-accent/20 transition-all cursor-pointer"
                     >
                       <BookOpen className="h-3.5 w-3.5" />
-                      Case Study
+                      {t(tr.caseStudyBtn, language)}
                     </button>
                     <a
                       href={repo.html_url}
@@ -336,17 +369,17 @@ export default function ApplicationModule({ config }) {
                   disabled={currentPage === 1}
                   className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-secondary hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-slate-800 disabled:opacity-50 cursor-pointer"
                 >
-                  Previous
+                  {t(tr.previous, language)}
                 </button>
                 <span className="text-xs font-semibold text-secondary dark:text-gray-400">
-                  Page {currentPage} of {totalPages}
+                  {t(tr.page, language)} {currentPage} {t(tr.of, language)} {totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
                   className="rounded-xl border border-gray-300 px-4 py-2 text-xs font-semibold text-secondary hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-slate-800 disabled:opacity-50 cursor-pointer"
                 >
-                  Next
+                  {t(tr.next, language)}
                 </button>
               </div>
             )}
@@ -381,17 +414,17 @@ export default function ApplicationModule({ config }) {
                       {/* Title & Header */}
                       <div>
                         <span className="text-[10px] font-bold text-accent uppercase tracking-wider">
-                          Auto-Generated Case Study // GitHub Sync
+                          {t(tr.modalLabel, language)}
                         </span>
                         <h3 className="mt-1 text-2xl font-bold text-primary dark:text-white sm:text-3xl">
                           {caseStudy.title}
                         </h3>
                         
                         <div className="mt-3 flex flex-wrap gap-4 text-xs font-semibold text-gray-500 dark:text-gray-400">
-                          <span>Language: <strong className="text-accent">{selectedRepo.language || "HTML"}</strong></span>
-                          <span>Stars: <strong>{selectedRepo.stargazers_count}</strong></span>
-                          <span>Forks: <strong>{selectedRepo.forks_count}</strong></span>
-                          <span>Last Sync: <strong>{new Date(selectedRepo.updated_at).toLocaleDateString()}</strong></span>
+                          <span>{t(tr.language, language)}: <strong className="text-accent">{selectedRepo.language || "HTML"}</strong></span>
+                          <span>{t(tr.stars, language)}: <strong>{selectedRepo.stargazers_count}</strong></span>
+                          <span>{t(tr.forks, language)}: <strong>{selectedRepo.forks_count}</strong></span>
+                          <span>{t(tr.lastSync, language)}: <strong>{new Date(selectedRepo.updated_at).toLocaleDateString()}</strong></span>
                         </div>
                       </div>
 
@@ -400,7 +433,7 @@ export default function ApplicationModule({ config }) {
                         {/* Section 1: Problem */}
                         <div className="space-y-1.5">
                           <h4 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                            1. Problem Statement
+                            {t(tr.problemSection, language)}
                           </h4>
                           <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">
                             {caseStudy.problem}
@@ -410,7 +443,7 @@ export default function ApplicationModule({ config }) {
                         {/* Section 2: Architecture */}
                         <div className="space-y-1.5">
                           <h4 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                            2. Technical Architecture &amp; Stack
+                            {t(tr.architectureSection, language)}
                           </h4>
                           <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">
                             {caseStudy.architecture}
@@ -420,20 +453,20 @@ export default function ApplicationModule({ config }) {
                         {/* Section 3: Challenges & Resolutions */}
                         <div className="space-y-1.5">
                           <h4 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                            3. Development Challenges &amp; Solutions
+                            {t(tr.challengesSection, language)}
                           </h4>
                           <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">
                             {caseStudy.challenges}
                           </p>
                           <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">
-                            <strong>Penyelesaian:</strong> {caseStudy.solution}
+                            <strong>{t(tr.solution, language)}</strong> {caseStudy.solution}
                           </p>
                         </div>
 
                         {/* Section 4: Key Features */}
                         <div className="space-y-2">
                           <h4 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                            4. Key Features Implemented
+                            {t(tr.featuresSection, language)}
                           </h4>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {caseStudy.features.map(feat => (
@@ -448,7 +481,7 @@ export default function ApplicationModule({ config }) {
                         {/* Section 5: Code blueprint */}
                         <div className="space-y-2">
                           <h4 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                            5. Technical Code Blueprint
+                            {t(tr.codeSection, language)}
                           </h4>
                           <pre className="rounded-xl bg-slate-950 p-4 text-[10px] font-mono text-emerald-400 overflow-x-auto max-h-[300px] border border-slate-800">
                             <code>{caseStudy.codeSnippet}</code>
@@ -465,13 +498,13 @@ export default function ApplicationModule({ config }) {
                           className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary text-white py-3 text-xs font-semibold dark:bg-accent dark:hover:bg-blue-700 hover:bg-gray-800 transition-colors"
                         >
                           <Code className="h-4 w-4" />
-                          View Complete Repository Code
+                          {t(tr.viewRepo, language)}
                         </a>
                         <button
                           onClick={handleCloseCaseStudy}
                           className="px-5 py-3 rounded-xl border border-gray-300 text-xs font-semibold text-secondary hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                         >
-                          Close Case Study
+                          {t(tr.closeCase, language)}
                         </button>
                       </div>
                     </div>

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ramy Syafitri | Software Engineer & Administration Professional",
+  title: "Ramy Syafitri | Software Engineer | Administration Professional | Networking & IT Support",
   description: "Personal portfolio and professional resume of Ramy Syafitri, specializing in full-stack web engineering (React, Next.js, FastAPI) and advanced spreadsheet/data administration.",
 };
 

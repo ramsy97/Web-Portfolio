@@ -3,28 +3,33 @@
 import React from "react";
 import { Quote, User, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { usePortfolioStore } from "../store/portfolioStore";
+import { translations, t } from "../utils/translations";
 
 export default function Testimonials() {
+  const { language } = usePortfolioStore();
+  const tr = translations.testimonials;
+
   const testimonials = [
     {
-      name: "Supervisor Quality Control",
-      role: "Ex-Supervisor",
-      company: "PT Yamaha Motor Electronic Indonesia",
-      text: "Ramy menunjukkan kedisiplinan dan fokus luar biasa dalam pencatatan log harian OK/NG komponen listrik. Melalui penerapan verifikasi ganda yang diusulkannya, tingkat kesalahan pengetikan log berkurang secara signifikan hingga 10%.",
+      name: t(tr.items.supervisor.name, language),
+      role: t(tr.items.supervisor.role, language),
+      company: t(tr.items.supervisor.company, language),
+      text: t(tr.items.supervisor.text, language),
       avatarInitials: "YS"
     },
     {
-      name: "Dosen Pembimbing Akademik",
-      role: "Ketua Program Studi Sistem Informasi",
-      company: "Universitas Bina Sarana Informatika",
-      text: "Sebagai mahasiswa bimbingan tugas akhir, Ramy menunjukkan pemahaman basis data MySQL dan modular pemrograman PHP yang sangat baik. Rancang bangun sistem penjualan makanan yang ia selesaikan sangat rapi dan terdokumentasi lengkap.",
+      name: t(tr.items.advisor.name, language),
+      role: t(tr.items.advisor.role, language),
+      company: t(tr.items.advisor.company, language),
+      text: t(tr.items.advisor.text, language),
       avatarInitials: "DB"
     },
     {
-      name: "Pemilik UMKM (WarungKita)",
-      role: "Klien Sistem Informasi POS",
-      company: "WarungKita SME Retail",
-      text: "Aplikasi Smart POS buatan Ramy sangat membantu kami melacak stok barang masuk/keluar harian. Fitur ekspor keuangan Excel sekali klik menghemat waktu pembukuan kami setiap akhir bulan. Ramy sangat kooperatif dan cepat merespon masukan.",
+      name: t(tr.items.client.name, language),
+      role: t(tr.items.client.role, language),
+      company: t(tr.items.client.company, language),
+      text: t(tr.items.client.text, language),
       avatarInitials: "WK"
     }
   ];
@@ -35,18 +40,18 @@ export default function Testimonials() {
         
         {/* Section Header */}
         <div className="text-left mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Peer Evaluations</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            Professional Recommendations
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Rekomendasi profesional dari pembimbing akademis, supervisor manufaktur, dan klien proyek mandiri.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
         {/* Testimonials Grid list */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((t, idx) => (
+          {testimonials.map((tItem, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 15 }}
@@ -59,13 +64,13 @@ export default function Testimonials() {
               <div className="flex justify-between items-center mb-6">
                 <Quote className="h-8 w-8 text-accent/20 dark:text-accent/30" />
                 <span className="inline-flex items-center gap-1 rounded-full bg-accent/5 px-2.5 py-1 text-[10px] font-bold text-accent dark:bg-accent/15">
-                  <Sparkles className="h-3 w-3 animate-pulse" /> Verified Reference
+                  <Sparkles className="h-3 w-3 animate-pulse" /> {t(tr.verified, language)}
                 </span>
               </div>
 
               {/* Text */}
               <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed italic flex-1 mb-6">
-                &ldquo;{t.text}&rdquo;
+                &ldquo;{tItem.text}&rdquo;
               </p>
 
               {/* Divider */}
@@ -74,14 +79,14 @@ export default function Testimonials() {
               {/* Profile card footer */}
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center font-bold text-accent text-sm dark:bg-accent/20 shrink-0">
-                  {t.avatarInitials}
+                  {tItem.avatarInitials}
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-primary dark:text-white">
-                    {t.name}
+                    {tItem.name}
                   </h4>
                   <p className="text-[10px] text-gray-500 dark:text-gray-400 font-semibold">
-                    {t.role} @ {t.company}
+                    {tItem.role} @ {tItem.company}
                   </p>
                 </div>
               </div>

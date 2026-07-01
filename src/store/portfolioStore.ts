@@ -1,9 +1,11 @@
 import { create } from "zustand";
 import { fetchGithubProfile, fetchGithubRepos, GithubProfile, GithubRepo } from "../utils/github";
+import { Language } from "../utils/translations";
 
 interface PortfolioState {
   theme: "light" | "dark";
   recruiterMode: boolean;
+  language: Language;
   githubRepos: GithubRepo[];
   githubProfile: GithubProfile | null;
   loading: boolean;
@@ -14,12 +16,15 @@ interface PortfolioState {
   toggleTheme: () => void;
   setRecruiterMode: (mode: boolean) => void;
   setActiveSection: (section: string) => void;
+  setLanguage: (lang: Language) => void;
+  toggleLanguage: () => void;
   fetchData: () => Promise<void>;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set, get) => ({
   theme: "light",
   recruiterMode: false,
+  language: "id",
   githubRepos: [],
   githubProfile: null,
   loading: false,
@@ -46,6 +51,13 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
   setRecruiterMode: (recruiterMode) => set({ recruiterMode }),
   
   setActiveSection: (activeSection) => set({ activeSection }),
+
+  setLanguage: (language) => set({ language }),
+
+  toggleLanguage: () => {
+    const next: Language = get().language === "id" ? "en" : "id";
+    set({ language: next });
+  },
 
   fetchData: async () => {
     set({ loading: true, error: null });

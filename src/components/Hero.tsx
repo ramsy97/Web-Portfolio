@@ -3,7 +3,8 @@
 import React from "react";
 import { usePortfolioStore } from "../store/portfolioStore";
 import { motion } from "framer-motion";
-import { Download, ArrowRight, Github, FileText, Code2, Database, TableProperties, Sparkles, Network } from "lucide-react";
+import { Download, ArrowRight, Github, FileText, Code2, Database, TableProperties, Network } from "lucide-react";
+import { translations, t } from "../utils/translations";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 22 },
@@ -12,14 +13,15 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Hero() {
-  const { githubRepos, recruiterMode, setActiveSection } = usePortfolioStore();
+  const { githubRepos, recruiterMode, setActiveSection, language } = usePortfolioStore();
   const totalRepos = githubRepos.length || 14;
+  const tr = translations;
 
   const stats = [
-    { label: "Total Projects", value: `${totalRepos}+` },
-    { label: "GitHub Repos", value: totalRepos.toString() },
-    { label: "Technologies", value: "15+" },
-    { label: "Years Learning", value: "4+ Yrs" },
+    { label: t(tr.hero.stats.totalProjects, language), value: `${totalRepos}+` },
+    { label: t(tr.hero.stats.githubRepos, language),   value: totalRepos.toString() },
+    { label: t(tr.hero.stats.technologies, language),  value: "15+" },
+    { label: t(tr.hero.stats.yearsLearning, language), value: "4+" },
   ];
 
   const handleScroll = (id: string) => {
@@ -59,7 +61,7 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              Available for On-site · Hybrid · Remote
+              {t(tr.hero.availability, language)}
             </motion.div>
 
             {/* Name — serif editorial style */}
@@ -76,7 +78,7 @@ export default function Hero() {
               {...fadeUp(0.22)}
               className="mt-5 text-lg font-semibold text-secondary dark:text-gray-300 uppercase tracking-widest"
             >
-              Software Engineer · Admin Professional · Networking & IT Support
+              {t(tr.hero.role, language)}
             </motion.p>
 
             {/* Description */}
@@ -84,7 +86,7 @@ export default function Hero() {
               {...fadeUp(0.32)}
               className="mt-5 max-w-xl text-base leading-relaxed text-secondary dark:text-gray-400"
             >
-              Profesional yang berfokus pada pengembangan perangkat lunak, pengelolaan administrasi, serta dukungan infrastruktur TI. Berkomitmen menghadirkan solusi digital yang andal, mengelola data secara akurat, dan meningkatkan efisiensi operasional melalui teknologi serta proses kerja yang terstruktur.
+              {t(tr.hero.description, language)}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -93,20 +95,20 @@ export default function Hero() {
                 onClick={() => handleScroll("projects")}
                 className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/25 hover:bg-[#a84d38] transition-all duration-200 cursor-pointer"
               >
-                View Projects <ArrowRight className="h-4 w-4" />
+                {t(tr.hero.viewProjects, language)} <ArrowRight className="h-4 w-4" />
               </button>
               <a
                 href="/resume.pdf"
                 download="Ramy_Syafitri_Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 transition-all duration-200 cursor-pointer"
               >
-                Download CV <Download className="h-4 w-4" />
+                {t(tr.hero.downloadCV, language)} <Download className="h-4 w-4" />
               </a>
               <button
                 onClick={() => handleScroll("contact")}
                 className="inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-secondary hover:text-accent dark:text-gray-400 dark:hover:text-white transition-colors cursor-pointer"
               >
-                Contact Me
+                {t(tr.hero.contactMe, language)}
               </button>
             </motion.div>
 
@@ -139,7 +141,7 @@ export default function Hero() {
                 {/* Status badge */}
                 <div className="absolute -top-3 right-6 inline-flex items-center gap-1.5 rounded-full bg-success px-3 py-1 text-xs font-semibold text-white shadow-md">
                   <span className="h-1.5 w-1.5 rounded-full bg-white block" />
-                  Open to Work
+                  {t(tr.hero.card.openToWork, language)}
                 </div>
 
                 {/* Avatar + name */}
@@ -149,7 +151,7 @@ export default function Hero() {
                   </div>
                   <div>
                     <h3 className="font-serif text-lg font-bold text-primary dark:text-white">Ramy Syafitri</h3>
-                    <p className="text-xs text-secondary dark:text-gray-400">Bekasi, Indonesia</p>
+                    <p className="text-xs text-secondary dark:text-gray-400">{t(tr.hero.card.location, language)}</p>
                   </div>
                 </div>
 
@@ -159,10 +161,10 @@ export default function Hero() {
                 {/* Core skills */}
                 <div className="space-y-3.5">
                   {[
-                    { icon: Code2, color: "text-accent", label: "Web Engineering", value: "React · Node · FastAPI" },
-                    { icon: TableProperties, color: "text-success", label: "Spreadsheet", value: "Excel Macro · Sheets" },
-                    { icon: Database, color: "text-[#d4975d]", label: "Data Operations", value: "MySQL · Entry · QC" },
-                    { icon: Network, color: "text-cyan-500", label: "Networking & IT Support", value: "Cisco · LAN/WAN" },
+                    { icon: Code2,           color: "text-accent",       label: t(tr.hero.card.webEngineering, language), value: "React · Node · FastAPI" },
+                    { icon: TableProperties, color: "text-success",      label: t(tr.hero.card.spreadsheet, language),    value: "Excel Macro · Sheets" },
+                    { icon: Database,        color: "text-[#d4975d]",    label: t(tr.hero.card.dataOps, language),        value: "MySQL · Entry · QC" },
+                    { icon: Network,         color: "text-cyan-500",     label: t(tr.hero.card.networkingIT, language),   value: "Cisco · LAN/WAN" },
                   ].map(({ icon: Icon, color, label, value }) => (
                     <div key={label} className="flex items-center justify-between text-sm">
                       <span className={`flex items-center gap-2 text-secondary dark:text-gray-400`}>
@@ -202,12 +204,12 @@ export default function Hero() {
                     transition={{ duration: 0.4 }}
                     className="mt-5 rounded-xl bg-accent/6 p-4 border border-accent/20 dark:bg-accent/10"
                   >
-                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Recruiter Cheat Sheet</p>
+                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest">{t(tr.hero.card.recruiterCheatSheet, language)}</p>
                     <ul className="mt-2 space-y-1.5 text-xs text-secondary dark:text-gray-300">
-                      <li>✓ <strong>GPA:</strong> 3.01 / 4.00 (D3 Sistem Informasi)</li>
-                      <li>✓ <strong>Availability:</strong> Immediate start</li>
-                      <li>✓ <strong>Top Skills:</strong> Full-stack · DB · QC Admin · IT Support</li>
-                      <li>✓ <strong>Location:</strong> Bekasi / Jabodetabek</li>
+                      <li>✓ <strong>{t(tr.hero.card.gpa, language)}:</strong> 3.01 / 4.00 (D3 Sistem Informasi)</li>
+                      <li>✓ <strong>{t(tr.hero.card.availability, language)}:</strong> {t(tr.hero.card.immediateStart, language)}</li>
+                      <li>✓ <strong>{t(tr.hero.card.topSkills, language)}:</strong> Full-stack · DB · QC Admin · IT Support</li>
+                      <li>✓ <strong>{t(tr.hero.card.location2, language)}:</strong> {t(tr.hero.card.location2Val, language)}</li>
                     </ul>
                   </motion.div>
                 )}

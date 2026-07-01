@@ -5,9 +5,11 @@ import { usePortfolioStore } from "../store/portfolioStore";
 import { calculateLanguageStats, getMockContributions } from "../utils/github";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { Github, Code, GitCommit, Users } from "lucide-react";
+import { translations, t } from "../utils/translations";
 
 export default function Analytics() {
-  const { githubRepos, githubProfile } = usePortfolioStore();
+  const { githubRepos, githubProfile, language } = usePortfolioStore();
+  const tr = translations.analytics;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -20,7 +22,6 @@ export default function Analytics() {
 
   const totalRepos = githubProfile?.public_repos || githubRepos.length || 14;
   const followers = githubProfile?.followers || 12;
-  const following = githubProfile?.following || 15;
   const totalCommits = contributionData.totalCommits;
 
   // Language chart colors
@@ -35,12 +36,36 @@ export default function Analytics() {
       language: r.language || "HTML"
     }));
 
-  // Activity log representation
+  // Activity log representation with bilingual support
   const recentActivities = [
-    { type: "commit", msg: "Pushed 3 commits to ramsy97/Warung-POS", time: "2 days ago" },
-    { type: "repo", msg: "Created repository ramsy97/Real-time-Food-Ordering-System", time: "1 month ago" },
-    { type: "star", msg: "Starred Tailwindlabs/tailwindcss repository", time: "2 months ago" },
-    { type: "commit", msg: "Merged pull request in quiz-app-menggunakan-react-js", time: "4 months ago" }
+    {
+      type: "commit",
+      msg: language === "id" 
+        ? "Mengirim 3 commit ke ramsy97/Warung-POS" 
+        : "Pushed 3 commits to ramsy97/Warung-POS",
+      time: language === "id" ? "2 hari yang lalu" : "2 days ago"
+    },
+    {
+      type: "repo",
+      msg: language === "id"
+        ? "Membuat repositori ramsy97/Real-time-Food-Ordering-System"
+        : "Created repository ramsy97/Real-time-Food-Ordering-System",
+      time: language === "id" ? "1 bulan yang lalu" : "1 month ago"
+    },
+    {
+      type: "star",
+      msg: language === "id"
+        ? "Menyukai repositori Tailwindlabs/tailwindcss"
+        : "Starred Tailwindlabs/tailwindcss repository",
+      time: language === "id" ? "2 bulan yang lalu" : "2 months ago"
+    },
+    {
+      type: "commit",
+      msg: language === "id"
+        ? "Menggabungkan pull request di quiz-app-menggunakan-react-js"
+        : "Merged pull request in quiz-app-menggunakan-react-js",
+      time: language === "id" ? "4 bulan yang lalu" : "4 months ago"
+    }
   ];
 
   return (
@@ -49,12 +74,12 @@ export default function Analytics() {
         
         {/* Section Header */}
         <div className="text-left mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Analytical Insights</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            GitHub Analytics Dashboard
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Menganalisis performa coding secara real-time. Menampilkan statistik repositori, grafik distribusi teknologi, dan catatan aktivitas commit.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
@@ -62,7 +87,7 @@ export default function Analytics() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
           <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Public Repos</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.publicRepos, language)}</span>
               <Github className="h-4 w-4 text-accent" />
             </div>
             <p className="text-3xl font-bold text-primary dark:text-white">{totalRepos}</p>
@@ -70,7 +95,7 @@ export default function Analytics() {
 
           <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Total Commits (YTD)</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.totalCommits, language)}</span>
               <GitCommit className="h-4 w-4 text-emerald-500" />
             </div>
             <p className="text-3xl font-bold text-primary dark:text-white">{totalCommits}</p>
@@ -78,7 +103,7 @@ export default function Analytics() {
 
           <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Followers</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.followers, language)}</span>
               <Users className="h-4 w-4 text-amber-500" />
             </div>
             <p className="text-3xl font-bold text-primary dark:text-white">{followers}</p>
@@ -86,7 +111,7 @@ export default function Analytics() {
 
           <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Languages</span>
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.languages, language)}</span>
               <Code className="h-4 w-4 text-purple-500" />
             </div>
             <p className="text-3xl font-bold text-primary dark:text-white">{languageStats.length}</p>
@@ -99,7 +124,7 @@ export default function Analytics() {
             {/* Pie Chart: Language Distribution */}
             <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-surface-dark shadow-md">
               <h3 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white mb-6">
-                Most Used Languages
+                {t(tr.mostUsedLang, language)}
               </h3>
               
               <div className="h-64 flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -119,7 +144,7 @@ export default function Analytics() {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value, name, props) => [`${value} projects`, `Lang: ${name}`]} />
+                      <Tooltip formatter={(value, name) => [`${value} ${language === "id" ? "proyek" : "projects"}`, `${language === "id" ? "Bahasa" : "Lang"}: ${name}`]} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -139,7 +164,7 @@ export default function Analytics() {
             {/* Bar Chart: Project Impact */}
             <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-surface-dark shadow-md">
               <h3 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white mb-6">
-                Repository Impact (Active Engagement)
+                {t(tr.repoImpact, language)}
               </h3>
               
               <div className="h-64" style={{ minWidth: 200, minHeight: 256 }}>
@@ -163,7 +188,7 @@ export default function Analytics() {
         {/* Contribution Heatmap Graph */}
         <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-surface-dark shadow-md mb-8 overflow-hidden">
           <h3 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white mb-5">
-            GitHub Contribution Activity (Last 12 Months)
+            {t(tr.contribution, language)}
           </h3>
           
           {/* Scrollable grid to accommodate mobile widths */}
@@ -197,14 +222,14 @@ export default function Analytics() {
           </div>
 
           <div className="mt-4 flex items-center justify-between text-[11px] font-semibold text-gray-400 dark:text-gray-500">
-            <span>Learn more on GitHub at <a href="https://github.com/ramsy97" className="underline text-accent">@ramsy97</a></span>
+            <span>{t(tr.learnMore, language)} <a href="https://github.com/ramsy97" className="underline text-accent">@ramsy97</a></span>
             <div className="flex items-center gap-1.5">
-              <span>Less</span>
+              <span>{t(tr.less, language)}</span>
               <span className="h-2.5 w-2.5 rounded-[1px] bg-gray-100 dark:bg-slate-800" />
               <span className="h-2.5 w-2.5 rounded-[1px] bg-green-200 dark:bg-green-900" />
               <span className="h-2.5 w-2.5 rounded-[1px] bg-green-400" />
               <span className="h-2.5 w-2.5 rounded-[1px] bg-green-700 dark:bg-green-300" />
-              <span>More</span>
+              <span>{t(tr.more, language)}</span>
             </div>
           </div>
         </div>
@@ -212,7 +237,7 @@ export default function Analytics() {
         {/* Recent Activity Log list */}
         <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-surface-dark shadow-md">
           <h3 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white mb-4">
-            Recent Sync Activity
+            {t(tr.recentActivity, language)}
           </h3>
           <div className="divide-y divide-gray-100 dark:divide-gray-800">
             {recentActivities.map((act, i) => (

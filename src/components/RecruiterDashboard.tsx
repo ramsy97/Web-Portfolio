@@ -4,9 +4,11 @@ import React from "react";
 import { usePortfolioStore } from "../store/portfolioStore";
 import { Briefcase, Download, Mail, Phone, ExternalLink, Award, ShieldCheck, Sparkles, CheckCircle, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { translations, t } from "../utils/translations";
 
 export default function RecruiterDashboard() {
-  const { recruiterMode, setRecruiterMode, setActiveSection } = usePortfolioStore();
+  const { recruiterMode, setRecruiterMode, setActiveSection, language } = usePortfolioStore();
+  const tr = translations.recruiter;
 
   const handleScroll = (id: string) => {
     setActiveSection(id);
@@ -33,7 +35,7 @@ export default function RecruiterDashboard() {
                   <Briefcase className="h-4 w-4" />
                 </div>
                 <h3 className="text-sm font-extrabold uppercase tracking-wide text-primary dark:text-white flex items-center gap-1.5">
-                  Recruiter Console
+                  {t(tr.console, language)}
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 </h3>
               </div>
@@ -41,7 +43,7 @@ export default function RecruiterDashboard() {
                 onClick={() => setRecruiterMode(false)}
                 className="text-xs font-semibold text-secondary hover:text-primary dark:text-gray-400 dark:hover:text-white cursor-pointer"
               >
-                Close
+                {t(tr.close, language)}
               </button>
             </div>
 
@@ -51,30 +53,30 @@ export default function RecruiterDashboard() {
               {/* Box 1: Profile Summary */}
               <div className="bg-white dark:bg-surface-dark border border-accent/20 rounded-xl p-4 space-y-2">
                 <span className="text-[10px] font-bold text-accent uppercase tracking-wider flex items-center gap-1">
-                  <ShieldCheck className="h-3 w-3" /> Candidate Profile
+                  <ShieldCheck className="h-3 w-3" /> {t(tr.candidateProfile, language)}
                 </span>
                 <h4 className="text-xs font-bold text-primary dark:text-white">Ramy Syafitri (D3 IS)</h4>
                 <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
-                  Lulusan Sistem Informasi (GPA: 3.01) dengan latar belakang administrasi data produksi di PT Yamaha.
+                  {t(tr.profileDesc, language)}
                 </p>
               </div>
 
               {/* Box 2: Hiring Strengths */}
               <div className="bg-white dark:bg-surface-dark border border-accent/20 rounded-xl p-4 space-y-2">
                 <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wider flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3" /> Hiring Highlights
+                  <CheckCircle className="h-3 w-3" /> {t(tr.hiringHighlights, language)}
                 </span>
                 <ul className="text-[10px] font-semibold text-secondary dark:text-gray-300 space-y-1">
                   <li className="flex justify-between">
-                    <span>Availability:</span>
-                    <span className="text-green-500">Immediate</span>
+                    <span>{t(tr.availability, language)}:</span>
+                    <span className="text-green-500">{t(tr.immediate, language)}</span>
                   </li>
                   <li className="flex justify-between">
-                    <span>GPA:</span>
+                    <span>{t(tr.gpa, language)}:</span>
                     <span>3.01 / 4.00</span>
                   </li>
                   <li className="flex justify-between">
-                    <span>Work Options:</span>
+                    <span>{t(tr.workOptions, language)}:</span>
                     <span>Onsite/Hybrid/Remote</span>
                   </li>
                 </ul>
@@ -83,21 +85,21 @@ export default function RecruiterDashboard() {
               {/* Box 3: Quick Projects Shortcuts */}
               <div className="bg-white dark:bg-surface-dark border border-accent/20 rounded-xl p-4 space-y-2">
                 <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider flex items-center gap-1">
-                  <Award className="h-3 w-3" /> Top Deliverables
+                  <Award className="h-3 w-3" /> {t(tr.topDeliverables, language)}
                 </span>
                 <div className="flex flex-col gap-1.5">
                   <button
                     onClick={() => handleScroll("projects-explorer")}
                     className="w-full text-left text-[11px] text-secondary hover:text-accent font-semibold flex items-center justify-between dark:text-gray-300 dark:hover:text-white"
                   >
-                    <span>• WarungKita POS Case Study</span>
+                    <span>{t(tr.posCase, language)}</span>
                     <ExternalLink className="h-3 w-3" />
                   </button>
                   <button
                     onClick={() => handleScroll("admin-portfolio")}
                     className="w-full text-left text-[11px] text-secondary hover:text-accent font-semibold flex items-center justify-between dark:text-gray-300 dark:hover:text-white"
                   >
-                    <span>• Excel Dashboard Automation</span>
+                    <span>{t(tr.excelCase, language)}</span>
                     <ExternalLink className="h-3 w-3" />
                   </button>
                 </div>
@@ -112,7 +114,7 @@ export default function RecruiterDashboard() {
                     className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-accent text-white py-1.5 text-xs font-bold hover:bg-blue-750 transition-colors"
                   >
                     <Download className="h-3.5 w-3.5" />
-                    Download CV
+                    {t(tr.downloadCV, language)}
                   </a>
                 </div>
                 <div className="flex gap-2">

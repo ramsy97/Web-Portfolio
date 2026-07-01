@@ -3,8 +3,13 @@
 import React, { useState } from "react";
 import { Sparkles, CheckCircle2, AlertTriangle, HelpCircle, FileText, ArrowRight, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
+import { usePortfolioStore } from "../store/portfolioStore";
+import { translations, t } from "../utils/translations";
 
 export default function CareerMatch() {
+  const { language } = usePortfolioStore();
+  const tr = translations.careerMatch;
+
   const [jobDescription, setJobDescription] = useState("");
   const [analysisResult, setAnalysisResult] = useState<any | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -35,7 +40,7 @@ export default function CareerMatch() {
       const missing: string[] = [];
       
       // Check Ramy's skills
-      Object.entries(ramySkills).forEach(([category, skills]) => {
+      Object.entries(ramySkills).forEach(([_, skills]) => {
         skills.forEach(skill => {
           // Use regex to check word boundaries
           const regex = new RegExp(`\\b${skill.replace(".", "\\.")}\\b`, "i");
@@ -76,11 +81,17 @@ export default function CareerMatch() {
       // Generate recommendation text
       let recommendation = "";
       if (score >= 85) {
-        recommendation = "Ramy Syafitri sangat cocok (High Match) untuk posisi ini! Keahlian teknis yang diminta sangat selaras dengan portofolio Web Development dan rekam jejak administrasi datanya.";
+        recommendation = language === "id"
+          ? "Ramy Syafitri sangat cocok (High Match) untuk posisi ini! Keahlian teknis yang diminta sangat selaras dengan portofolio Web Development dan rekam jejak administrasi datanya."
+          : "Ramy Syafitri is an excellent fit (High Match) for this position! The required technical skills align closely with his Web Development portfolio and production data administration track record.";
       } else if (score >= 70) {
-        recommendation = "Ramy Syafitri memiliki kecocokan yang baik (Good Match). Ia menguasai sebagian besar core tech stack dan administrasi, serta siap mempelajari tools tambahan dalam waktu singkat.";
+        recommendation = language === "id"
+          ? "Ramy Syafitri memiliki kecocokan yang baik (Good Match). Ia menguasai sebagian besar core tech stack dan administrasi, serta siap mempelajari tools tambahan dalam waktu singkat."
+          : "Ramy Syafitri has a good compatibility rate (Good Match). He is proficient in the majority of core tech stack and administration tasks, and is ready to pick up extra tools quickly.";
       } else {
-        recommendation = "Kecocokan moderat. Ramy memiliki pondasi sistem informasi yang kuat (D3) dan sangat direkomendasikan untuk tugas-tugas entry-level rekayasa perangkat lunak maupun administrasi umum.";
+        recommendation = language === "id"
+          ? "Kecocokan moderat. Ramy memiliki pondasi sistem informasi yang kuat (D3) dan sangat direkomendasikan untuk tugas-tugas entry-level rekayasa perangkat lunak maupun administrasi umum."
+          : "Moderate compatibility. Ramy has a solid information systems background (D3) and is highly recommended for entry-level software engineering tasks or general administration.";
       }
 
       setAnalysisResult({
@@ -114,12 +125,12 @@ export default function CareerMatch() {
         
         {/* Section Header */}
         <div className="text-left mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Smart Recruiter Tool</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            Career Match Score Analyzer
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Tempel deskripsi pekerjaan (Job Description) atau unggah file TXT untuk menganalisis persentase kecocokan skill Ramy secara otomatis.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
@@ -130,13 +141,13 @@ export default function CareerMatch() {
           <div className="lg:col-span-6 space-y-4">
             <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm space-y-4">
               <label className="block text-xs font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                Paste Job Description (JD) text:
+                {t(tr.pasteLabel, language)}
               </label>
               
               <textarea
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
-                placeholder="Paste the job requirements here (e.g. We are looking for a Web Developer with React, MySQL, Excel reporting...)"
+                placeholder={t(tr.placeholder, language)}
                 rows={8}
                 className="w-full p-4 text-xs bg-surface dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent"
               />
@@ -156,7 +167,7 @@ export default function CareerMatch() {
                     className="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-xs font-semibold text-secondary hover:bg-gray-50 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-300 dark:hover:bg-slate-800 cursor-pointer"
                   >
                     <FileText className="h-4 w-4" />
-                    Upload JD (.txt)
+                    {t(tr.uploadBtn, language)}
                   </label>
                 </div>
 
@@ -166,7 +177,7 @@ export default function CareerMatch() {
                   disabled={analyzing || !jobDescription.trim()}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-xl bg-accent px-5 py-2.5 text-xs font-bold text-white hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
                 >
-                  {analyzing ? "Analyzing Stack..." : "Analyze Match Score"}
+                  {analyzing ? t(tr.analyzing, language) : t(tr.analyzeBtn, language)}
                 </button>
               </div>
             </div>
@@ -183,9 +194,9 @@ export default function CareerMatch() {
                 {/* Score Section */}
                 <div className="flex items-center justify-between gap-6 pb-5 border-b border-gray-100 dark:border-gray-800">
                   <div>
-                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wide">Match Compatibility</h4>
+                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.matchCompatibility, language)}</h4>
                     <p className="text-xs font-semibold text-secondary dark:text-gray-300 mt-1">
-                      Berdasarkan pemindaian kata kunci keahlian.
+                      {t(tr.basedOnScan, language)}
                     </p>
                   </div>
 
@@ -223,7 +234,7 @@ export default function CareerMatch() {
                 <div className="space-y-2">
                   <h5 className="text-xs font-extrabold uppercase tracking-wide text-emerald-500 flex items-center gap-1.5">
                     <CheckCircle2 className="h-4 w-4" />
-                    Matched Skills Found:
+                    {t(tr.matchedSkills, language)}
                   </h5>
                   <div className="flex flex-wrap gap-1.5">
                     {analysisResult.matched.length > 0 ? (
@@ -236,7 +247,7 @@ export default function CareerMatch() {
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-gray-400 italic">None matched. Paste detailed requirements.</span>
+                      <span className="text-xs text-gray-400 italic">{t(tr.noneMatched, language)}</span>
                     )}
                   </div>
                 </div>
@@ -246,7 +257,7 @@ export default function CareerMatch() {
                   <div className="space-y-2">
                     <h5 className="text-xs font-extrabold uppercase tracking-wide text-amber-500 flex items-center gap-1.5">
                       <AlertTriangle className="h-4 w-4" />
-                      Optional/Missing Keywords Mentioned:
+                      {t(tr.missingKeywords, language)}
                     </h5>
                     <div className="flex flex-wrap gap-1.5">
                       {analysisResult.missing.map((skill: string) => (
@@ -259,7 +270,7 @@ export default function CareerMatch() {
                       ))}
                     </div>
                     <p className="text-[10px] text-gray-400 leading-normal">
-                      * Catatan: Ramy siap melatih kemampuan di atas secara intensif berbekal dasar logika pemrogramannya.
+                      {t(tr.noteRamy, language)}
                     </p>
                   </div>
                 )}
@@ -268,7 +279,7 @@ export default function CareerMatch() {
                 <div className="space-y-1.5 border-t border-gray-150 pt-4 dark:border-gray-800">
                   <h5 className="text-xs font-extrabold uppercase tracking-wide text-primary dark:text-white flex items-center gap-1.5">
                     <ShieldCheck className="h-4 w-4 text-accent" />
-                    Hiring Evaluation &amp; Recommendation:
+                    {t(tr.evaluationTitle, language)}
                   </h5>
                   <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed font-semibold">
                     {analysisResult.recommendation}
@@ -279,10 +290,10 @@ export default function CareerMatch() {
               <div className="rounded-2xl border border-dashed border-gray-300 p-10 text-center dark:border-gray-800 flex flex-col items-center justify-center h-full min-h-[300px]">
                 <HelpCircle className="h-8 w-8 text-gray-300 dark:text-gray-700 mb-3" />
                 <p className="text-xs font-bold text-gray-500 dark:text-gray-400">
-                  Hasil Analisis Akan Ditampilkan Di Sini
+                  {t(tr.emptyTitle, language)}
                 </p>
                 <p className="text-[10px] text-gray-400 max-w-xs mt-1.5 leading-relaxed">
-                  Tempel deskripsi kerja atau persyaratan HRD di samping untuk melihat kecocokan skill set Ramy.
+                  {t(tr.emptyDesc, language)}
                 </p>
               </div>
             )}

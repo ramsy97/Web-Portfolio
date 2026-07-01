@@ -2,23 +2,25 @@
 
 import React from "react";
 import { usePortfolioStore } from "../store/portfolioStore";
-import { Sun, Moon, Briefcase, Menu, X, Check } from "lucide-react";
+import { Sun, Moon, Briefcase, Menu, X, Check, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { translations, t } from "../utils/translations";
 
 export default function Navbar() {
-  const { theme, toggleTheme, recruiterMode, setRecruiterMode, activeSection, setActiveSection } =
+  const { theme, toggleTheme, recruiterMode, setRecruiterMode, activeSection, setActiveSection, language, toggleLanguage } =
     usePortfolioStore();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const tr = translations;
 
   const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
-    { id: "projects", label: "Projects" },
-    { id: "admin-portfolio", label: "Office & Excel" },
-    { id: "timeline", label: "Timeline" },
-    { id: "analytics", label: "Analytics" },
-    { id: "contact", label: "Contact" },
+    { id: "home",           label: t(tr.nav.home, language) },
+    { id: "about",          label: t(tr.nav.about, language) },
+    { id: "skills",         label: t(tr.nav.skills, language) },
+    { id: "projects",       label: t(tr.nav.projects, language) },
+    { id: "admin-portfolio",label: t(tr.nav.adminPortfolio, language) },
+    { id: "timeline",       label: t(tr.nav.timeline, language) },
+    { id: "analytics",      label: t(tr.nav.analytics, language) },
+    { id: "contact",        label: t(tr.nav.contact, language) },
   ];
 
   const handleNavClick = (id: string) => {
@@ -43,13 +45,13 @@ export default function Navbar() {
             }}
             className="font-serif text-xl font-bold tracking-tight text-primary dark:text-white"
           >
-            Ramy<span className="italic text-accent font-light"> Syafitri</span>
+            Ramy<span className="italic text-accent font-light">Syafitri</span>
           </a>
           
           {/* Recruiter Badge */}
           {recruiterMode && (
             <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent dark:bg-accent/20">
-              <Check className="h-3 w-3" /> Recruiter Mode Active
+              <Check className="h-3 w-3" /> {t(tr.nav.recruiterBadge, language)}
             </span>
           )}
         </div>
@@ -83,6 +85,27 @@ export default function Navbar() {
 
         {/* Toolbar Controls */}
         <div className="hidden sm:flex items-center gap-3">
+          {/* Language Toggle */}
+          <motion.button
+            onClick={toggleLanguage}
+            whileTap={{ scale: 0.92 }}
+            className="inline-flex items-center gap-1.5 rounded-full border border-gray-300 px-3 py-1.5 text-xs font-bold tracking-wide uppercase transition-all duration-300 cursor-pointer hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-800 text-secondary"
+            title={language === "id" ? t(tr.general.switchToEn, language) : t(tr.general.switchToId, language)}
+          >
+            <Globe className="h-3.5 w-3.5" />
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={language}
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ duration: 0.18 }}
+              >
+                {language === "id" ? "🇮🇩 ID" : "🇬🇧 EN"}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
+
           {/* Recruiter Mode Toggle */}
           <button
             onClick={() => setRecruiterMode(!recruiterMode)}
@@ -94,7 +117,7 @@ export default function Navbar() {
             title="Toggle Recruiter Mode to unlock quick metrics and hiring summaries"
           >
             <Briefcase className="h-3.5 w-3.5" />
-            {recruiterMode ? "Recruiter Dashboard" : "Recruiter Mode"}
+            {recruiterMode ? t(tr.nav.recruiterDashboard, language) : t(tr.nav.recruiterMode, language)}
           </button>
 
           {/* Theme Switcher */}
@@ -109,6 +132,25 @@ export default function Navbar() {
 
         {/* Mobile menu and toggle theme buttons */}
         <div className="flex items-center gap-2 lg:hidden">
+          {/* Language Toggle Mobile */}
+          <motion.button
+            onClick={toggleLanguage}
+            whileTap={{ scale: 0.92 }}
+            className="rounded-full border border-gray-300 px-2.5 py-1.5 text-xs font-bold text-secondary dark:border-gray-700 dark:text-gray-300 cursor-pointer"
+          >
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={language}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                transition={{ duration: 0.15 }}
+              >
+                {language === "id" ? "🇮🇩" : "🇬🇧"}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
+
           {/* Theme Switcher Mobile */}
           <button
             onClick={toggleTheme}

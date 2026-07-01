@@ -3,64 +3,48 @@
 import React, { useState } from "react";
 import { GraduationCap, Briefcase, Calendar, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { usePortfolioStore } from "../store/portfolioStore";
+import { translations, t } from "../utils/translations";
 
 export default function Timeline() {
   const [filter, setFilter] = useState<"all" | "work" | "education">("all");
+  const { language } = usePortfolioStore();
+  const tr = translations.timeline;
 
   const timelineData = [
     {
       type: "work",
-      title: "Full-Stack Developer (Freelance)",
-      company: "WarungKita & RestoFlow projects",
+      title:   t(tr.items.freelanceDev.title, language),
+      company: t(tr.items.freelanceDev.company, language),
       date: "2025 - Present",
-      description: [
-        "Membangun aplikasi Smart POS (Warung-POS) berbasis React 19, FastAPI, dan SQLite dengan fungsionalitas ekspor laporan keuangan harian dan manajemen hak akses.",
-        "Mengembangkan RestoFlow, sistem ordering makanan real-time dengan socket.io, Vue 3, Express, dan PostgreSQL untuk menyinkronkan data kasir dan dapur."
-      ],
+      description: tr.items.freelanceDev.desc[language],
       icon: Briefcase,
       color: "bg-accent"
     },
     {
       type: "education",
-      title: "Diploma Three (D3) of Information Systems",
-      company: "Universitas Bina Sarana Informatika",
+      title:   t(tr.items.bsiUniv.title, language),
+      company: t(tr.items.bsiUniv.company, language),
       date: "Sep 2018 – Aug 2021",
-      description: [
-        "IPK: 3.01 / 4.00",
-        "Tugas Akhir: Rancang Bangun Sistem Informasi Penjualan Makanan Berbasis Web. Merancang skema database menggunakan MySQL dan membuat antarmuka admin menggunakan PHP."
-      ],
+      description: tr.items.bsiUniv.desc[language],
       icon: GraduationCap,
       color: "bg-indigo-500"
     },
     {
       type: "education",
-      title: "Vocational High School of Computer and Network Engineering",
-      company: "SMK Ristek Jaya Jakarta",
+      title:   t(tr.items.smkSchool.title, language),
+      company: t(tr.items.smkSchool.company, language),
       date: "Jul 2012 – May 2015",
-      description: [
-        "National Exam Average: 79.00/100",
-        "Computer Hardware Assembly & Troubleshooting",
-        "Computer Network Installation & Configuration",
-        "TCP/IP Networking Fundamentals",
-        "Windows & Linux Administration",
-        "Network Device Configuration (Router & Switch)",
-        "Network Cabling & IP Addressing",
-        "Computer Maintenance & System Troubleshooting",
-        "Basic Network Security"
-      ],
+      description: tr.items.smkSchool.desc[language],
       icon: GraduationCap,
       color: "bg-indigo-500"
     },
     {
       type: "work",
-      title: "Operator Production",
-      company: "PT Yamaha Motor Electronic Indonesia",
+      title:   t(tr.items.yamahaWork.title, language),
+      company: t(tr.items.yamahaWork.company, language),
       date: "Nov 2017 – Nov 2018",
-      description: [
-        "Mendokumentasikan hasil inspeksi komponen elektrikal (OK/NG) ke laporan harian Excel.",
-        "Menginput data hasil produksi harian ke dalam sistem inventaris internal Yamaha.",
-        "Menerapkan prosedur verifikasi data ganda (double-check), berhasil menekan error log hingga 10%."
-      ],
+      description: tr.items.yamahaWork.desc[language],
       icon: Briefcase,
       color: "bg-accent"
     }
@@ -71,28 +55,30 @@ export default function Timeline() {
     return item.type === filter;
   });
 
+  const filterButtons = [
+    { id: "all",       label: t(tr.filterAll, language) },
+    { id: "work",      label: t(tr.filterWork, language) },
+    { id: "education", label: t(tr.filterEducation, language) },
+  ];
+
   return (
     <section id="timeline" className="py-20 bg-white dark:bg-bg-dark transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-left mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Professional Journey</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            Experience &amp; Timeline
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Perjalanan karir akademis dan profesional, memadukan latar belakang industri manufaktur dengan rekayasa perangkat lunak.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
         {/* Filter Controls */}
         <div className="mb-12 flex flex-wrap gap-2.5 border-b border-gray-100 dark:border-gray-800 pb-4">
-          {[
-            { id: "all", label: "Show All" },
-            { id: "work", label: "Work Experience" },
-            { id: "education", label: "Education" }
-          ].map(btn => (
+          {filterButtons.map(btn => (
             <button
               key={btn.id}
               onClick={() => setFilter(btn.id as any)}
@@ -130,7 +116,7 @@ export default function Timeline() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                     <div>
                       <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white ${item.color}`}>
-                        {item.type === "work" ? "Experience" : "Education"}
+                        {item.type === "work" ? t(tr.badgeWork, language) : t(tr.badgeEducation, language)}
                       </span>
                       <h3 className="text-base font-extrabold text-primary dark:text-white mt-1.5">
                         {item.title}
@@ -147,7 +133,7 @@ export default function Timeline() {
                   </div>
 
                   <ul className="space-y-2 border-t border-gray-50 pt-3 dark:border-gray-800">
-                    {item.description.map((desc, dIdx) => (
+                    {item.description.map((desc: string, dIdx: number) => (
                       <li key={dIdx} className="flex items-start gap-2 text-xs text-secondary dark:text-gray-300 leading-relaxed">
                         <ChevronRight className="h-3.5 w-3.5 text-accent shrink-0 mt-0.5" />
                         <span>{desc}</span>

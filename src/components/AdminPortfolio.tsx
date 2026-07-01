@@ -3,94 +3,122 @@
 import React, { useState } from "react";
 import { Table, Database, CheckSquare, BarChart3, Clock, Sparkles, Code } from "lucide-react";
 import { motion } from "framer-motion";
+import { usePortfolioStore } from "../store/portfolioStore";
+import { translations, t } from "../utils/translations";
 
 export default function AdminPortfolio() {
+  const { language } = usePortfolioStore();
+  const tr = translations.adminPortfolio;
   const [activeTab, setActiveTab] = useState<"excel" | "data">("excel");
   const [selectedProject, setSelectedProject] = useState<number>(0);
 
   const excelProjects = [
     {
-      title: "Interactive Sales Dashboard",
-      description: "Dashboard interaktif untuk memantau data penjualan produk makanan harian, mingguan, dan bulanan secara visual.",
+      title: t(tr.excelProjects.dashboard.title, language),
+      description: t(tr.excelProjects.dashboard.desc, language),
       formulas: "=SUMIFS(SalesTable[Amount], SalesTable[Date], \">=\"&StartDate, SalesTable[Date], \"<=\"&EndDate)",
-      impact: "Meningkatkan kecepatan review data penjualan berkala dari 2 jam menjadi kurang dari 5 menit.",
-      features: ["Slicer interaktif berdasarkan kategori produk", "Grafik tren dinamis", "Perhitungan otomatis profit margin"],
-      previewGrid: [
-        ["Product", "Q1 Qty", "Q1 Revenue", "Margin"],
+      impact: t(tr.excelProjects.dashboard.impact, language),
+      features: language === "id" ? tr.excelProjects.dashboard.features.id : tr.excelProjects.dashboard.features.en,
+      previewGrid: language === "id" ? [
+        ["Produk", "Kuantitas Q1", "Pendapatan Q1", "Margin"],
         ["Bakso Pedas", "1,240", "Rp 18,600,000", "45%"],
         ["Mie Ayam", "980", "Rp 14,700,000", "40%"],
         ["Es Teh Manis", "2,150", "Rp 10,750,000", "65%"],
         ["TOTAL", "4,370", "Rp 44,050,000", "48%"]
+      ] : [
+        ["Product", "Q1 Qty", "Q1 Revenue", "Margin"],
+        ["Spicy Meatballs", "1,240", "Rp 18,600,000", "45%"],
+        ["Chicken Noodles", "980", "Rp 14,700,000", "40%"],
+        ["Sweet Iced Tea", "2,150", "Rp 10,750,000", "65%"],
+        ["TOTAL", "4,370", "Rp 44,050,000", "48%"]
       ]
     },
     {
-      title: "Smart Inventory Tracker",
-      description: "Sistem pelacakan inventaris gudang yang mencatat stok masuk, keluar, dan memberikan peringatan otomatis (low-stock warning).",
+      title: t(tr.excelProjects.inventory.title, language),
+      description: t(tr.excelProjects.inventory.desc, language),
       formulas: "=IF(CurrentStock <= ReorderPoint, \"RESTOCK NOW\", \"OK\")",
-      impact: "Mencegah kehabisan bahan baku utama produksi dan meminimalkan keterlambatan pengiriman hingga 98%.",
-      features: ["Pewarnaan otomatis (Conditional Formatting)", "Log mutasi stok harian", "Dashboard status restock"],
-      previewGrid: [
+      impact: t(tr.excelProjects.inventory.impact, language),
+      features: language === "id" ? tr.excelProjects.inventory.features.id : tr.excelProjects.inventory.features.en,
+      previewGrid: language === "id" ? [
+        ["ID Barang", "Nama Barang", "Stok Gudang", "Status"],
+        ["P-001", "Daging Sapi (kg)", "15", "STOK MENIPIS"],
+        ["P-002", "Tepung Tapioka (kg)", "240", "AMAN"],
+        ["P-003", "Bumbu Racik (pack)", "8", "RESTOCK SEGERA"],
+        ["P-004", "Kemasan Box (pcs)", "1,200", "AMAN"]
+      ] : [
         ["Item ID", "Item Name", "Stock", "Status"],
-        ["RAW-01", "Daging Sapi", "12 kg", "RESTOCK NOW"],
-        ["RAW-02", "Tepung Tapioka", "85 kg", "OK"],
-        ["RAW-03", "Bumbu Racik", "5 kg", "RESTOCK NOW"],
-        ["PKG-01", "Kemasan Box", "500 pcs", "OK"]
+        ["P-001", "Beef (kg)", "15", "LOW STOCK"],
+        ["P-002", "Tapioca Flour (kg)", "240", "SAFE"],
+        ["P-003", "Seasoning Spice (pack)", "8", "RESTOCK NOW"],
+        ["P-004", "Box Packaging (pcs)", "1,200", "SAFE"]
       ]
     },
     {
-      title: "Employee Attendance & Database",
-      description: "Database karyawan terintegrasi dengan perhitungan absensi bulanan otomatis serta kalkulator lembur karyawan.",
+      title: t(tr.excelProjects.attendance.title, language),
+      description: t(tr.excelProjects.attendance.desc, language),
       formulas: "=NETWORKDAYS(StartDate, EndDate) - AttendanceCount",
-      impact: "Mempersingkat rekapitulasi penggajian bulanan HRD dari 3 hari kerja menjadi 1 hari kerja.",
-      features: ["Formula absensi otomatis", "Validasi input data NIK", "Grafik statistik kehadiran bulanan"],
-      previewGrid: [
+      impact: t(tr.excelProjects.attendance.impact, language),
+      features: language === "id" ? tr.excelProjects.attendance.features.id : tr.excelProjects.attendance.features.en,
+      previewGrid: language === "id" ? [
+        ["NIK", "Nama Karyawan", "Kehadiran (Hari)", "Jam Lembur"],
+        ["Y-1002", "Andi Pratama", "22", "14.5 Jam"],
+        ["Y-1005", "Ratih Purwasih", "21", "8.0 Jam"],
+        ["Y-1011", "Budi Santoso", "22", "16.0 Jam"],
+        ["TOTAL", "3 Karyawan", "65 Hari", "38.5 Jam"]
+      ] : [
         ["NIK", "Employee Name", "Present Days", "Overtime Hrs"],
-        ["EMP001", "Ramy Syafitri", "22", "18.5"],
-        ["EMP002", "Budi Santoso", "21", "12.0"],
-        ["EMP003", "Siti Aminah", "22", "8.0"],
+        ["Y-1002", "Andi Pratama", "22", "14.5 Hrs"],
+        ["Y-1005", "Ratih Purwasih", "21", "8.0 Hrs"],
+        ["Y-1011", "Budi Santoso", "22", "16.0 Hrs"],
         ["TOTAL", "3 Employees", "65 Days", "38.5 Hrs"]
       ]
     },
     {
-      title: "Automated Financial Report",
-      description: "Laporan rugi laba dan arus kas otomatis bulanan yang terhubung langsung dengan sheet transaksi kasir.",
+      title: t(tr.excelProjects.financial.title, language),
+      description: t(tr.excelProjects.financial.desc, language),
       formulas: "=SUM(InflowTable[Amount]) - SUM(OutflowTable[Amount])",
-      impact: "Menghindari selisih pembukuan kas bulanan hingga 0.0% dengan validasi ganda otomatis.",
-      features: ["Pembuatan laporan otomatis", "Perbandingan rugi laba tahunan", "Chart distribusi pengeluaran"],
-      previewGrid: [
-        ["Month", "Inflow", "Outflow", "Net Cash"],
-        ["January", "Rp 45,000,000", "Rp 32,500,000", "+ Rp 12,500,000"],
-        ["February", "Rp 52,100,000", "Rp 38,900,000", "+ Rp 13,200,000"],
-        ["March", "Rp 48,600,000", "Rp 35,200,000", "+ Rp 13,400,000"],
-        ["TOTAL", "Rp 145,700,000", "Rp 106,600,000", "+ Rp 39,100,000"]
+      impact: t(tr.excelProjects.financial.impact, language),
+      features: language === "id" ? tr.excelProjects.financial.features.id : tr.excelProjects.financial.features.en,
+      previewGrid: language === "id" ? [
+        ["Bulan", "Kas Masuk", "Kas Keluar", "Arus Kas Bersih"],
+        ["Januari", "Rp 32,500,000", "Rp 24,100,000", "+Rp 8,400,000"],
+        ["Februari", "Rp 28,900,000", "Rp 26,350,000", "+Rp 2,550,000"],
+        ["Maret", "Rp 41,200,000", "Rp 30,500,000", "+Rp 10,700,000"],
+        ["TOTAL", "Rp 102,600,000", "Rp 80,950,000", "+Rp 21,650,000"]
+      ] : [
+        ["Month", "Inflow", "Outflow", "Net Cash Flow"],
+        ["January", "Rp 32,500,000", "Rp 24,100,000", "+Rp 8,400,000"],
+        ["February", "Rp 28,900,000", "Rp 26,350,000", "+Rp 2,550,000"],
+        ["March", "Rp 41,200,000", "Rp 30,500,000", "+Rp 10,700,000"],
+        ["TOTAL", "Rp 102,600,000", "Rp 80,950,000", "+Rp 21,650,000"]
       ]
     }
   ];
 
   const dataProjects = [
     {
-      title: "PT Yamaha Production Log Cleaning",
-      description: "Pembersihan dan validasi data log inspeksi komponen elektronik (OK/NG) harian sebelum dilaporkan ke tim Quality Control.",
-      challenge: "Data mentah dari mesin produksi sering memiliki format tidak konsisten, baris kosong, dan data duplikat yang mengacaukan statistik QA.",
-      solution: "Menggunakan Power Query & filter lanjutan untuk menghapus duplikat secara otomatis dan melakukan validasi silang (cross-reference NIK operator).",
-      impact: "Menekan error pelaporan log inspeksi harian dari rata-rata 12% menjadi 0% pasca pembersihan data.",
-      workflow: ["Ekstraksi CSV harian", "Filter duplikasi data", "Pencocokan silang log Quality Control"]
+      title: t(tr.dataProjects.yamaha.title, language),
+      description: t(tr.dataProjects.yamaha.desc, language),
+      challenge: t(tr.dataProjects.yamaha.challenge, language),
+      solution: t(tr.dataProjects.yamaha.solution, language),
+      impact: t(tr.dataProjects.yamaha.impact, language),
+      workflow: language === "id" ? tr.dataProjects.yamaha.workflow.id : tr.dataProjects.yamaha.workflow.en
     },
     {
-      title: "Documentation & Filing System Setup",
-      description: "Perancangan sistem indeks pengarsipan file digital perusahaan agar dokumen administrasi dapat ditemukan dalam waktu cepat.",
-      challenge: "Pencarian file manual memakan waktu 15-20 menit per dokumen karena struktur folder yang tidak seragam dan penamaan acak.",
-      solution: "Membuat standar tata nama file terstruktur (YYYYMMDD_Kategori_NamaFile) dan master sheet indeks dengan tautan dinamis.",
-      impact: "Mempersingkat waktu pencarian dokumen audit dari 15 menit menjadi kurang dari 15 detik.",
-      workflow: ["Kodifikasi file arsip", "Indeksasi master sheet", "Tautan folder digital terpusat"]
+      title: t(tr.dataProjects.filing.title, language),
+      description: t(tr.dataProjects.filing.desc, language),
+      challenge: t(tr.dataProjects.filing.challenge, language),
+      solution: t(tr.dataProjects.filing.solution, language),
+      impact: t(tr.dataProjects.filing.impact, language),
+      workflow: language === "id" ? tr.dataProjects.filing.workflow.id : tr.dataProjects.filing.workflow.en
     },
     {
-      title: "Data Quality Validation Suite",
-      description: "Sistem verifikasi ganda yang mencocokkan data inventaris fisik (stock opname) dengan sistem pembukuan internal.",
-      challenge: "Selisih stok barang fisik dan sistem sering terdeteksi lambat, mengakibatkan gangguan pada antrean produksi.",
-      solution: "Menerapkan formula pencarian dinamis (XLOOKUP) dan conditional formatting untuk mendeteksi selisih stok secara instan.",
-      impact: "Menghilangkan selisih data stok bahan baku hingga 10% dan mempercepat proses stock opname bulanan.",
-      workflow: ["Stock opname lapangan", "Automated XLOOKUP comparison", "Highlight selisih otomatis"]
+      title: t(tr.dataProjects.validation.title, language),
+      description: t(tr.dataProjects.validation.desc, language),
+      challenge: t(tr.dataProjects.validation.challenge, language),
+      solution: t(tr.dataProjects.validation.solution, language),
+      impact: t(tr.dataProjects.validation.impact, language),
+      workflow: language === "id" ? tr.dataProjects.validation.workflow.id : tr.dataProjects.validation.workflow.en
     }
   ];
 
@@ -102,12 +130,12 @@ export default function AdminPortfolio() {
         
         {/* Section Header */}
         <div className="text-left mb-12">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Administration &amp; Data Operations</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            Office &amp; Excel Portfolio
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Kumpulan proyek administrasi data dan automasi excel yang dibangun menggunakan formula canggih dan metode QA berkinerja tinggi.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
@@ -122,7 +150,7 @@ export default function AdminPortfolio() {
             }`}
           >
             <Table className="h-4.5 w-4.5" />
-            Excel Automation
+            {t(tr.tabExcel, language)}
           </button>
           <button
             onClick={() => { setActiveTab("data"); setSelectedProject(0); }}
@@ -133,7 +161,7 @@ export default function AdminPortfolio() {
             }`}
           >
             <Database className="h-4.5 w-4.5" />
-            Data Operations
+            {t(tr.tabData, language)}
           </button>
         </div>
 
@@ -176,7 +204,7 @@ export default function AdminPortfolio() {
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                 <div>
                   <span className="text-[10px] font-bold text-accent uppercase tracking-wider">
-                    {activeTab === "excel" ? "Excel Dashboard Study" : "Data Quality Case Study"}
+                    {activeTab === "excel" ? t(tr.excelStudy, language) : t(tr.dataStudy, language)}
                   </span>
                   <h3 className="text-xl font-bold text-primary dark:text-white mt-0.5">
                     {activeProjectData.title}
@@ -184,7 +212,7 @@ export default function AdminPortfolio() {
                 </div>
                 <div className="flex items-center gap-1.5 bg-green-500/10 px-3.5 py-1.5 rounded-full text-xs font-semibold text-green-500 dark:bg-green-500/20 shrink-0">
                   <Clock className="h-3.5 w-3.5" />
-                  Impact: verified
+                  {t(tr.impactVerified, language)}
                 </div>
               </div>
 
@@ -200,7 +228,7 @@ export default function AdminPortfolio() {
                   <div className="space-y-1.5">
                     <h5 className="text-xs font-extrabold uppercase tracking-wide text-primary dark:text-white flex items-center gap-1.5">
                       <Code className="h-4 w-4 text-accent" />
-                      Core Excel Formula used:
+                      {t(tr.coreFormula, language)}
                     </h5>
                     <pre className="rounded-xl bg-slate-950 p-3.5 text-xs font-mono text-emerald-400 overflow-x-auto border border-slate-800">
                       <code>{activeProjectData.formulas}</code>
@@ -209,7 +237,7 @@ export default function AdminPortfolio() {
 
                   {/* Impact */}
                   <div className="space-y-1 bg-accent/5 p-4 rounded-xl border border-accent/25 dark:bg-accent/10">
-                    <h5 className="text-xs font-bold text-accent">Business Metric Impact:</h5>
+                    <h5 className="text-xs font-bold text-accent">{t(tr.businessImpact, language)}</h5>
                     <p className="text-xs text-secondary dark:text-gray-300 font-semibold">{activeProjectData.impact}</p>
                   </div>
 
@@ -218,7 +246,7 @@ export default function AdminPortfolio() {
                     <div className="space-y-2">
                       <h5 className="text-xs font-extrabold uppercase tracking-wide text-primary dark:text-white flex items-center gap-1.5">
                         <Sparkles className="h-4 w-4 text-amber-500 animate-pulse" />
-                        Spreadsheet Grid Preview
+                        {t(tr.gridPreview, language)}
                       </h5>
                       <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
                         <table className="min-w-full text-xs text-left border-collapse">
@@ -258,18 +286,18 @@ export default function AdminPortfolio() {
                   {/* Challenge & Solution */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <h5 className="text-xs font-extrabold uppercase tracking-wide text-red-500">The Challenge:</h5>
+                      <h5 className="text-xs font-extrabold uppercase tracking-wide text-red-500">{t(tr.theChallenge, language)}</h5>
                       <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">{activeProjectData.challenge}</p>
                     </div>
                     <div className="space-y-1">
-                      <h5 className="text-xs font-extrabold uppercase tracking-wide text-emerald-500">The Solution:</h5>
+                      <h5 className="text-xs font-extrabold uppercase tracking-wide text-emerald-500">{t(tr.theSolution, language)}</h5>
                       <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">{activeProjectData.solution}</p>
                     </div>
                   </div>
 
                   {/* Impact */}
                   <div className="space-y-1 bg-emerald-500/5 p-4 rounded-xl border border-emerald-500/20 dark:bg-emerald-500/10">
-                    <h5 className="text-xs font-bold text-emerald-500">Quality Improvement:</h5>
+                    <h5 className="text-xs font-bold text-emerald-500">{t(tr.qualityImprove, language)}</h5>
                     <p className="text-xs text-secondary dark:text-gray-300 font-semibold">{activeProjectData.impact}</p>
                   </div>
 
@@ -277,10 +305,10 @@ export default function AdminPortfolio() {
                   {"workflow" in activeProjectData && (
                     <div className="space-y-2">
                       <h5 className="text-xs font-extrabold uppercase tracking-wide text-primary dark:text-white">
-                        Standard Operating Procedure (SOP) Workflow
+                        {t(tr.sopWorkflow, language)}
                       </h5>
                       <div className="flex flex-col sm:flex-row gap-3">
-                        {(activeProjectData.workflow as string[]).map((step, idx) => (
+                        {(activeProjectData.workflow as readonly string[]).map((step, idx) => (
                           <div
                             key={step}
                             className="flex-1 flex items-center gap-2.5 bg-gray-50 dark:bg-slate-800/50 border border-gray-150 dark:border-gray-800 p-3 rounded-lg text-xs"

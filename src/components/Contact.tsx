@@ -1,10 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Phone, MessageSquare, Linkedin, Github, Send, CheckCircle, RefreshCw, AlertCircle } from "lucide-react";
+import { Mail, Phone, MessageSquare, Linkedin, Github, Send, CheckCircle, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePortfolioStore } from "../store/portfolioStore";
+import { translations, t } from "../utils/translations";
 
 export default function Contact() {
+  const { language } = usePortfolioStore();
+  const tr = translations.contact;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,12 +69,12 @@ export default function Contact() {
         
         {/* Section Header */}
         <div className="text-left mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Get In Touch</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            Contact Me
+            {t(tr.sectionTitle, language)}
           </h2>
           <p className="mt-4 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-            Hubungi saya untuk mendiskusikan peluang kerja, kerja sama freelance, atau menguji kecocokan kriteria HRD perusahaan Anda.
+            {t(tr.sectionDesc, language)}
           </p>
         </div>
 
@@ -79,11 +84,11 @@ export default function Contact() {
           {/* Left Column: Contact Coordinates */}
           <div className="lg:col-span-5 space-y-6">
             <h3 className="text-xl font-bold text-primary dark:text-white">
-              Direct Channels
+              {t(tr.directChannels, language)}
             </h3>
             
             <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-              Silakan hubungi saya melalui jalur resmi di bawah ini. Saya berkomitmen merespon pesan Anda secepatnya (rata-rata di bawah 2 jam).
+              {t(tr.channelsDesc, language)}
             </p>
 
             <div className="space-y-4">
@@ -95,7 +100,7 @@ export default function Contact() {
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-gray-400 uppercase">Official Email</h4>
+                  <h4 className="text-xs font-bold text-gray-400 uppercase">{t(tr.officialEmail, language)}</h4>
                   <p className="text-sm font-semibold text-primary dark:text-white mt-0.5">ramysyafitri8@gmail.com</p>
                 </div>
               </a>
@@ -111,7 +116,7 @@ export default function Contact() {
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-gray-400 uppercase">WhatsApp (Prefilled)</h4>
+                  <h4 className="text-xs font-bold text-gray-400 uppercase">{t(tr.whatsapp, language)}</h4>
                   <p className="text-sm font-semibold text-primary dark:text-white mt-0.5">+62 851-5641-4903</p>
                 </div>
               </a>
@@ -140,7 +145,7 @@ export default function Contact() {
 
             {/* Note box */}
             <div className="rounded-xl bg-accent/5 p-4 border border-accent/20 dark:bg-accent/10 text-[11px] text-secondary dark:text-gray-300 leading-relaxed">
-              * Tips: Mengisi form di samping akan secara otomatis memformat pesan WhatsApp jika Anda ingin mengirim tembusan langsung ke nomor telepon saya.
+              {t(tr.tip, language)}
             </div>
           </div>
 
@@ -160,10 +165,10 @@ export default function Contact() {
                       <CheckCircle className="h-8 w-8" />
                     </div>
                     <h3 className="text-lg font-bold text-primary dark:text-white">
-                      Message Sent Successfully!
+                      {t(tr.success.title, language)}
                     </h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto leading-relaxed">
-                      Pesan Anda berhasil dikirim ke email Ramy Syafitri via Resend API Gateway.
+                      {t(tr.success.desc, language)}
                     </p>
                     
                     <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
@@ -174,13 +179,13 @@ export default function Contact() {
                         className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-green-500 text-white px-5 py-2.5 text-xs font-bold hover:bg-green-600 transition-colors"
                       >
                         <MessageSquare className="h-4 w-4" />
-                        Send on WhatsApp Too
+                        {t(tr.success.whatsappBtn, language)}
                       </a>
                       <button
                         onClick={handleReset}
                         className="inline-flex items-center justify-center rounded-xl border border-gray-300 px-5 py-2.5 text-xs font-semibold text-secondary hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-800 transition-colors cursor-pointer"
                       >
-                        Send New Message
+                        {t(tr.success.resetBtn, language)}
                       </button>
                     </div>
                   </motion.div>
@@ -191,51 +196,51 @@ export default function Contact() {
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">Your Name</label>
+                        <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">{t(tr.form.name, language)}</label>
                         <input
                           type="text"
                           name="name"
                           required
                           value={formData.name}
                           onChange={handleInputChange}
-                          placeholder="e.g. Hiring Manager"
+                          placeholder={t(tr.form.namePlaceholder, language)}
                           className="w-full p-3 text-xs bg-surface dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-primary dark:text-white"
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">Your Email</label>
+                        <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">{t(tr.form.email, language)}</label>
                         <input
                           type="email"
                           name="email"
                           required
                           value={formData.email}
                           onChange={handleInputChange}
-                          placeholder="e.g. hrd@company.com"
+                          placeholder={t(tr.form.emailPlaceholder, language)}
                           className="w-full p-3 text-xs bg-surface dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-primary dark:text-white"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">Subject</label>
+                      <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">{t(tr.form.subject, language)}</label>
                       <input
                         type="text"
                         name="subject"
                         value={formData.subject}
                         onChange={handleInputChange}
-                        placeholder="e.g. Software Engineer / Admin Staff Job Offer"
+                        placeholder={t(tr.form.subjectPlaceholder, language)}
                         className="w-full p-3 text-xs bg-surface dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-primary dark:text-white"
                       />
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">Message</label>
+                      <label className="text-[10px] font-extrabold uppercase tracking-wide text-gray-400">{t(tr.form.message, language)}</label>
                       <textarea
                         name="message"
                         required
                         value={formData.message}
                         onChange={handleInputChange}
-                        placeholder="Write your job details or message..."
+                        placeholder={t(tr.form.messagePlaceholder, language)}
                         rows={5}
                         className="w-full p-3 text-xs bg-surface dark:bg-bg-dark border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent text-primary dark:text-white"
                       />
@@ -260,7 +265,7 @@ export default function Contact() {
                       className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-accent py-3.5 text-xs font-bold text-white hover:bg-blue-700 disabled:opacity-50 transition-colors cursor-pointer"
                     >
                       <Send className="h-4 w-4" />
-                      {loading ? "Sending..." : "Submit Message"}
+                      {loading ? t(tr.form.sending, language) : t(tr.form.submit, language)}
                     </button>
                   </motion.form>
                 )}

@@ -3,37 +3,35 @@
 import React from "react";
 import { CheckCircle2, Target, Award, ShieldAlert, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { usePortfolioStore } from "../store/portfolioStore";
+import { translations, t } from "../utils/translations";
 
 export default function About() {
+  const { language } = usePortfolioStore();
+  const tr = translations.about;
+
   const strengths = [
     {
-      title: "Bridging Tech & Admin",
-      description: "Mampu menulis kode program web modern sekaligus mengelola, memvalidasi, dan mengotomatisasi file data administrasi secara detail.",
+      title: t(tr.strengths.bridgingTitle, language),
+      description: t(tr.strengths.bridgingDesc, language),
       icon: Award,
       color: "text-accent"
     },
     {
-      title: "10% Error Reduction",
-      description: "Memiliki rekam jejak kedisiplinan tinggi dari PT Yamaha Motor Electronic Indonesia, menekan tingkat kesalahan input data hingga 10%.",
+      title: t(tr.strengths.errorTitle, language),
+      description: t(tr.strengths.errorDesc, language),
       icon: ShieldAlert,
       color: "text-red-500"
     },
     {
-      title: "Structured Documentation",
-      description: "Pakar dalam merancang database relasional, membuat dashboard Excel, dan mengelola dokumen log transaksi secara rapi dan sistematis.",
+      title: t(tr.strengths.docTitle, language),
+      description: t(tr.strengths.docDesc, language),
       icon: Target,
       color: "text-emerald-500"
     }
   ];
 
-  const softSkills = [
-    "Detail-Oriented & Systematic",
-    "Analytical Problem Solving",
-    "Under Pressure Performance",
-    "Strong Technical Communication",
-    "Team Collaboration (Onsite/Hybrid)",
-    "Available Immediately"
-  ];
+  const softSkills = tr.softSkills.skills[language];
 
   return (
     <section id="about" className="py-20 bg-surface dark:bg-slate-900/40 border-y border-gray-100 dark:border-gray-800 transition-colors">
@@ -41,9 +39,9 @@ export default function About() {
         
         {/* Section Header */}
         <div className="text-left mb-16">
-          <p className="text-xs font-bold uppercase tracking-widest text-accent">Executive Profile</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-accent">{t(tr.sectionLabel, language)}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-primary dark:text-white sm:text-4xl">
-            About Me
+            {t(tr.sectionTitle, language)}
           </h2>
         </div>
 
@@ -59,15 +57,16 @@ export default function About() {
             className="lg:col-span-7 space-y-6"
           >
             <h3 className="text-2xl font-serif italic text-primary dark:text-gray-200 leading-snug">
-              &ldquo;Mengintegrasikan keahlian sistem informasi dengan akurasi administratif tingkat tinggi untuk membangun operasional digital yang nihil galat.&rdquo;
+              {t(tr.quote, language)}
             </h3>
             
-            <p className="text-base leading-relaxed text-secondary dark:text-gray-300">
-              Saya adalah lulusan <strong>Diploma Tiga (D3) Sistem Informasi</strong> dari Universitas Bina Sarana Informatika dengan IPK <strong>3.01/4.00</strong>. Saya menguasai pemrograman web (JavaScript, TypeScript, ReactJS, Python, FastAPI, PHP, MySQL) sekaligus berpengalaman dalam administrasi data produksi yang detail dan berorientasi pada ketelitian.
-            </p>
+            <p
+              className="text-base leading-relaxed text-secondary dark:text-gray-300"
+              dangerouslySetInnerHTML={{ __html: t(tr.bio1, language) }}
+            />
 
             <p className="text-base leading-relaxed text-secondary dark:text-gray-300">
-              Berbekal kedisiplinan kerja yang terbentuk selama bekerja di PT Yamaha Motor Electronic Indonesia, saya terbiasa melakukan verifikasi data ganda dan menyusun laporan harian dengan presisi tinggi. Saya siap berkarir sebagai Programmer, Staf Administrasi, Data Entry Specialist, maupun IT Support.
+              {t(tr.bio2, language)}
             </p>
 
             {/* Core Strengths Columns */}
@@ -106,7 +105,7 @@ export default function About() {
             <div className="rounded-2xl border border-gray-200/80 bg-white p-6 shadow-md dark:border-gray-800/80 dark:bg-surface-dark">
               <h3 className="text-lg font-bold text-primary dark:text-white flex items-center gap-2 mb-4">
                 <Sparkles className="h-5 w-5 text-accent animate-pulse" />
-                Professional Competency
+                {t(tr.softSkills.title, language)}
               </h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -129,37 +128,36 @@ export default function About() {
 
               <div className="mt-6 border-t border-gray-100 pt-5 dark:border-gray-800">
                 <h4 className="text-xs font-bold text-accent uppercase tracking-wider mb-2">
-                  Latar Belakang Pendidikan:
+                  {t(tr.education.title, language)}
                 </h4>
-                <p className="text-xs text-secondary dark:text-gray-300 leading-relaxed">
-                  <strong>Universitas Bina Sarana Informatika</strong> (2018 - 2021)
-                  <br />Diploma Tiga (D3) Sistem Informasi — GPA 3.01
-                  <br />Tugas Akhir: Rancang Bangun Sistem Informasi Penjualan Makanan Berbasis Web (PHP &amp; MySQL).
-                </p>
+                <p
+                  className="text-xs text-secondary dark:text-gray-300 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t(tr.education.detail, language) }}
+                />
               </div>
             </div>
 
             {/* Quick Factoids Box */}
             <div className="rounded-2xl bg-primary p-6 text-white dark:bg-accent/15 dark:border dark:border-accent/30">
               <h4 className="text-sm font-bold tracking-wide uppercase text-accent dark:text-blue-400">
-                Hiring Fast Facts
+                {t(tr.fastFacts.title, language)}
               </h4>
               <ul className="mt-4 space-y-3 text-xs text-gray-300 dark:text-gray-300">
                 <li className="flex justify-between">
-                  <span>Bahasa:</span>
-                  <span className="font-semibold text-white">Indonesia (Fasih), Inggris (Menengah)</span>
+                  <span>{t(tr.fastFacts.language, language)}:</span>
+                  <span className="font-semibold text-white">{t(tr.fastFacts.languageVal, language)}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Lokasi:</span>
-                  <span className="font-semibold text-white">Bekasi, Jawa Barat</span>
+                  <span>{t(tr.fastFacts.location, language)}:</span>
+                  <span className="font-semibold text-white">{t(tr.fastFacts.locationVal, language)}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Ketersediaan:</span>
-                  <span className="font-semibold text-green-400 dark:text-green-300">Segera (Tanpa Notice Period)</span>
+                  <span>{t(tr.fastFacts.availability, language)}:</span>
+                  <span className="font-semibold text-green-400 dark:text-green-300">{t(tr.fastFacts.availabilityVal, language)}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Sistem Kerja:</span>
-                  <span className="font-semibold text-white">On-site / Hybrid / Remote</span>
+                  <span>{t(tr.fastFacts.workSystem, language)}:</span>
+                  <span className="font-semibold text-white">{t(tr.fastFacts.workSystemVal, language)}</span>
                 </li>
               </ul>
             </div>
