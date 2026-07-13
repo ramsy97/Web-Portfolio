@@ -22,7 +22,7 @@ interface PortfolioState {
 }
 
 export const usePortfolioStore = create<PortfolioState>((set, get) => ({
-  theme: "light",
+  theme: "dark",
   recruiterMode: false,
   language: "id",
   githubRepos: [],

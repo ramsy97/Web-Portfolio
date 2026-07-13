@@ -84,37 +84,37 @@ export default function Analytics() {
         </div>
 
         {/* Stats Grid cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-          <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.publicRepos, language)}</span>
-              <Github className="h-4 w-4 text-accent" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
+          <div className="rounded-2xl border border-gray-250 bg-white p-4 sm:p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
+            <div className="flex justify-between items-start gap-2 mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wide line-clamp-2 leading-tight">{t(tr.publicRepos, language)}</span>
+              <Github className="h-4 w-4 text-accent shrink-0 mt-0.5" />
             </div>
-            <p className="text-3xl font-bold text-primary dark:text-white">{totalRepos}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-primary dark:text-white">{totalRepos}</p>
           </div>
 
-          <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.totalCommits, language)}</span>
-              <GitCommit className="h-4 w-4 text-emerald-500" />
+          <div className="rounded-2xl border border-gray-250 bg-white p-4 sm:p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
+            <div className="flex justify-between items-start gap-2 mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wide line-clamp-2 leading-tight">{t(tr.totalCommits, language)}</span>
+              <GitCommit className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
             </div>
-            <p className="text-3xl font-bold text-primary dark:text-white">{totalCommits}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-primary dark:text-white">{totalCommits}</p>
           </div>
 
-          <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.followers, language)}</span>
-              <Users className="h-4 w-4 text-amber-500" />
+          <div className="rounded-2xl border border-gray-250 bg-white p-4 sm:p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
+            <div className="flex justify-between items-start gap-2 mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wide line-clamp-2 leading-tight">{t(tr.followers, language)}</span>
+              <Users className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
             </div>
-            <p className="text-3xl font-bold text-primary dark:text-white">{followers}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-primary dark:text-white">{followers}</p>
           </div>
 
-          <div className="rounded-2xl border border-gray-250 bg-white p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">{t(tr.languages, language)}</span>
-              <Code className="h-4 w-4 text-purple-500" />
+          <div className="rounded-2xl border border-gray-250 bg-white p-4 sm:p-5 dark:border-gray-800 dark:bg-surface-dark shadow-sm">
+            <div className="flex justify-between items-start gap-2 mb-3">
+              <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wide line-clamp-2 leading-tight">{t(tr.languages, language)}</span>
+              <Code className="h-4 w-4 text-purple-500 shrink-0 mt-0.5" />
             </div>
-            <p className="text-3xl font-bold text-primary dark:text-white">{languageStats.length}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-primary dark:text-white">{languageStats.length}</p>
           </div>
         </div>
 
@@ -127,8 +127,8 @@ export default function Analytics() {
                 {t(tr.mostUsedLang, language)}
               </h3>
               
-              <div className="h-64 flex flex-col sm:flex-row items-center justify-center gap-6">
-                <div className="w-48 h-48" style={{ minWidth: 192, minHeight: 192 }}>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 h-auto sm:h-64 py-2 sm:py-0">
+                <div className="w-48 h-48 shrink-0" style={{ minWidth: 192, minHeight: 192 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -149,11 +149,11 @@ export default function Analytics() {
                   </ResponsiveContainer>
                 </div>
                 
-                <div className="flex-1 space-y-2.5">
+                <div className="w-full sm:flex-1 space-y-2 sm:space-y-2.5 max-w-[240px] sm:max-w-none">
                   {languageStats.slice(0, 5).map((stat, idx) => (
                     <div key={stat.name} className="flex items-center gap-3">
                       <span className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                      <span className="text-xs font-bold text-secondary dark:text-gray-300 w-20">{stat.name}</span>
+                      <span className="text-xs font-bold text-secondary dark:text-gray-300 min-w-[5rem] shrink-0">{stat.name}</span>
                       <span className="text-xs text-gray-400 dark:text-gray-500 font-semibold">{stat.percentage}% ({stat.value} repos)</span>
                     </div>
                   ))}
@@ -169,15 +169,11 @@ export default function Analytics() {
               
               <div className="h-64" style={{ minWidth: 200, minHeight: 256 }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={reposBarData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+                  <BarChart data={reposBarData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <XAxis dataKey="name" stroke="#94a3b8" fontSize={9} tickLine={false} />
                     <YAxis stroke="#94a3b8" fontSize={9} tickLine={false} />
                     <Tooltip cursor={{ fill: "rgba(37,99,235,0.05)" }} />
-                    <Bar dataKey="stars" radius={[4, 4, 0, 0]}>
-                      {reposBarData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.language === "Python" ? "#3B82F6" : entry.language === "Vue" ? "#10B981" : "#F59E0B"} />
-                      ))}
-                    </Bar>
+                    <Bar dataKey="stars" fill="#c05e46" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -221,9 +217,9 @@ export default function Analytics() {
             </div>
           </div>
 
-          <div className="mt-4 flex items-center justify-between text-[11px] font-semibold text-gray-400 dark:text-gray-500">
-            <span>{t(tr.learnMore, language)} <a href="https://github.com/ramsy97" className="underline text-accent">@ramsy97</a></span>
-            <div className="flex items-center gap-1.5">
+          <div className="mt-4 flex flex-col sm:flex-row gap-3 items-center justify-between text-[11px] font-semibold text-gray-400 dark:text-gray-500">
+            <span className="text-center sm:text-left">{t(tr.learnMore, language)} <a href="https://github.com/ramsy97" className="underline text-accent">@ramsy97</a></span>
+            <div className="flex items-center gap-1.5 shrink-0">
               <span>{t(tr.less, language)}</span>
               <span className="h-2.5 w-2.5 rounded-[1px] bg-gray-100 dark:bg-slate-800" />
               <span className="h-2.5 w-2.5 rounded-[1px] bg-green-200 dark:bg-green-900" />
@@ -241,9 +237,9 @@ export default function Analytics() {
           </h3>
           <div className="divide-y divide-gray-100 dark:divide-gray-800">
             {recentActivities.map((act, i) => (
-              <div key={i} className="flex justify-between items-center py-3 text-xs">
-                <span className="text-secondary dark:text-gray-300">{act.msg}</span>
-                <span className="text-gray-400 font-semibold">{act.time}</span>
+              <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between py-3 text-xs gap-2 sm:gap-4">
+                <span className="text-secondary dark:text-gray-300 break-words">{act.msg}</span>
+                <span className="text-gray-400 font-semibold shrink-0">{act.time}</span>
               </div>
             ))}
           </div>
