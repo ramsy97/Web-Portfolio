@@ -109,7 +109,7 @@ export default function RecruiterDashboard() {
               <div className="bg-white dark:bg-surface-dark border border-accent/20 rounded-xl p-4 space-y-2.5 flex flex-col justify-center">
                 <div className="flex gap-2">
                   <a
-                    href="/resume.pdf"
+                    href="/ramy.pdf"
                     download="Ramy_Syafitri_Resume.pdf"
                     className="flex-1 inline-flex items-center justify-center gap-1 rounded-lg bg-accent text-white py-1.5 text-xs font-bold hover:bg-blue-750 transition-colors"
                   >

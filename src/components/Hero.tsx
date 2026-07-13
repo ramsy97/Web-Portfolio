@@ -98,7 +98,7 @@ export default function Hero() {
                 {t(tr.hero.viewProjects, language)} <ArrowRight className="h-4 w-4" />
               </button>
               <a
-                href="/resume.pdf"
+                href="/ramy.pdf"
                 download="Ramy_Syafitri_Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-xl border border-primary/20 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 transition-all duration-200 cursor-pointer"
               >
